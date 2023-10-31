@@ -1,0 +1,42 @@
+CREATE Table users
+(
+        num_users integer NOT NULL AUTO_INCREMENT,
+        nom_complet varchar(65) NOT NULL,
+        email_user varchar(30) NOT NULL,
+        mdp_user varchar(25) NOT NULL,
+        competence varchar(200) NOT NULL,
+        niveau enum('Licence','Master','Doctorat'),
+        img varchar(25) NOT NULL,
+        cv varchar(25) NOT NULL,
+	PRIMARY KEY (num_users)
+    
+);
+
+
+CREATE Table projet
+(
+	idd_pt integer NOT NULL AUTO_INCREMENT,
+        num_users integer, 
+	nom_pt varchar(25)  NOT NULL,
+        domaine varchar(25)  NOT NULL,
+        statut enum('actif','clos'),
+        description text (250) NOT NULL,
+	cahier varchar(25)  NOT NULL,
+	PRIMARY KEY (idd_pt),
+        FOREIGN KEY (num_users) REFERENCES users (num_users)
+        
+);
+
+
+CREATE Table message
+(
+	num_mes integer NOT NULL AUTO_INCREMENT,
+        num_users integer,
+	contenu text(100) NOT NULL,
+        date DATE NOT NULL,
+	PRIMARY KEY (num_mes),
+        FOREIGN KEY (num_users) REFERENCES users (num_users)
+);
+
+
+
