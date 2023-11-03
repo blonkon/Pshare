@@ -77,20 +77,32 @@ nav ul li a:hover{
 .parties{
     display: flex;
     flex-direction: row;
+    
+    
 }
 /* Sidebar */
 .left{
     width: 15%;
-    height: 500px;
+    padding-top: 26px;
+    height: 100vh;
     background-color: #06708e;
     border-radius: 0px 14px 0px 0px;
 
 }
 .left li{
-    padding-top: 26px;
-    padding-left: 12%;
+    display: flex;
+    text-align: center;
+    justify-content: start;
+    padding-bottom: 26px ;
+    padding-left: 15%;
+    text-align: center;
 }
 
+.left li img{
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
 .left li a{
     text-decoration: none;
     color: #ffffff;
