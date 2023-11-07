@@ -4,46 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="profil.css">
-    <title>Document</title>
+    <title>Messages</title>
 </head>
 <body>
     <div class="container">
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-                <li><a href="index.php">Accueil</a></li>
-                <li><a href="membres.php">Membres</a></li>
-                <li><a href="projets.php">Projets</a></li>
-                <a href="profil.php"><img src="image/2.jpg" alt=""></a>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="membres.html">Membres</a></li>
+                <li><a href="projets.html">Projets</a></li>
+                <a href="profil.html"><img src="image/2.jpg" alt=""></a>
              </ul>
             
         </nav>      
     </div>
     <div class="partie">
         <div class="left">
-            <ul>
+            <ul >
                 <li>
+                    <img src="./image/chat.svg">
                     <a href="#"> Messages</a>
                    
                 </li>
                 <li>
+                    <img src="./image/project.svg">
                     <a href="#">Projets</a>
                 </li>
                 <li>
+                    <img src="./image/profile.svg">
                     <a href="#">Profil</a>
                     
                 </li>
             </ul>
         </div>
         <div class="right">
-
+            <div class="contact" id="contactes"> 
+            </div>
+            <h1>Messages</h1>
+            <div class="chat">
+                <div class="chatp" id="chatp">
+                    <img src="../Pshare/image/man.jpg" alt="">
+                    <p>Ibrahim B Diakite</p>
+                </div>
+                <div class="content">
+                    <div class="messagebox">
+                        <img src="../Pshare/image/moi.png" alt="">
+                        <div>
+                            <p>mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                            </p>
+                            <span>2020/23/21: 12h:12</span>
+                        </div>
+                    </div>
+                    <div class="messagebox">
+                        <img src="../Pshare/image/moi.png" alt="">
+                        <div>
+                            <p>mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                            </p>
+                            <span>2020/23/21: 12h:12</span>
+                        </div>
+                    </div>
+                    <div class="messagebox">
+                        <img src="../Pshare/image/moi.png" alt="">
+                        <div>
+                            <p>mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                            </p>
+                            <span>2020/23/21: 12h:12</span>
+                        </div>
+                    </div>                    <div class="messagebox">
+                        <img src="../Pshare/image/moi.png" alt="">
+                        <div>
+                            <p>mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                                mon message broo j'espere que tu vois ce que je veux dire
+                            </p>
+                            <span>2020/23/21: 12h:12</span>
+                        </div>
+                    </div>
+                    <div class="fixed-element">
+                        <input type="text" placeholder="Votre message">
+                        <input type="submit" value="Envoyer">
+                      </div>
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-
-   
+    <script src="chat.js"></script>
 </body>
 <footer>
     <div class="pied-page">
