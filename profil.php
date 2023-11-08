@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="profil.css">
+    <link rel="stylesheet" href="./profil.css">
     <title>Messages</title>
 </head>
 <body>
@@ -44,66 +45,15 @@
             <h1>Messages</h1>
             <div class="chat">
                 <div class="chatp" id="chatp">
-                    <img src="../Pshare/image/man.jpg" alt="">
-                    <p>Ibrahim B Diakite</p>
+                    <img src="../Pshare/image/user.png" alt="">
+                    <p>Users</p>
                 </div>
-                <div class="content">
-                    <div class="messagebox">
-                        <img src="../Pshare/image/moi.png" alt="">
-                        <div>
-                            <p>mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                            </p>
-                            <span>2020/23/21: 12h:12</span>
-                        </div>
-                    </div>
-                    <div class="messagebox">
-                        <img src="../Pshare/image/moi.png" alt="">
-                        <div>
-                            <p>mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                            </p>
-                            <span>2020/23/21: 12h:12</span>
-                        </div>
-                    </div>
-                    <div class="messagebox">
-                        <img src="../Pshare/image/moi.png" alt="">
-                        <div>
-                            <p>mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                            </p>
-                            <span>2020/23/21: 12h:12</span>
-                        </div>
-                    </div>                    <div class="messagebox">
-                        <img src="../Pshare/image/moi.png" alt="">
-                        <div>
-                            <p>mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                                mon message broo j'espere que tu vois ce que je veux dire
-                            </p>
-                            <span>2020/23/21: 12h:12</span>
-                        </div>
-                    </div>
-                    <div class="fixed-element">
-                        <input type="text" placeholder="Votre message">
-                        <input type="submit" value="Envoyer">
-                      </div>
+                <div class="content" id="content">
                 </div>
             </div>
         </div>
     </div>
-    <script src="chat.js"></script>
+    <script src="./chat.js"></script>
 </body>
 <footer>
     <div class="pied-page">

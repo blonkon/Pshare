@@ -8,12 +8,15 @@ try {
     die("Erreur de connexion à la base de données : " . $e->getMessage());
 }
 
-
-$requete = " SELECT *
+// $monid =  $_SESSION["num_users"];
+$requete = "SELECT *
 FROM users
-INNER JOIN (SELECT sender as id FROM message WHERE sender = 1 OR recever = 1
-UNION 
-SELECT recever as id FROM message WHERE sender = 1 OR recever = 1) as result ON users.num_users = result.id;
+INNER JOIN (
+    SELECT sender as id FROM message WHERE sender = 1 OR recever = 1
+    UNION 
+    SELECT recever as id FROM message WHERE sender = 1 OR recever = 1
+) as result ON users.num_users = result.id
+WHERE users.num_users !=1;
 
 ";
 $stmt = $connexion->prepare($requete);

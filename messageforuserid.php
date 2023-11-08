@@ -10,9 +10,11 @@ function maFonction(int $id) {
         die("Erreur de connexion à la base de données : " . $e->getMessage());
     }
     
-    
-    $requete = " SELECT  * FROM message WHERE sender = 1 OR recever = $id and  sender = $id OR recever = 1
-    ";
+    // $monid =  $_SESSION["num_users"];
+    $requete = " SELECT *
+    FROM message
+    WHERE (sender = 1 AND recever = $id) OR (sender = $id AND recever = 1)
+    ORDER BY date DESC;";
     $stmt = $connexion->prepare($requete);
     $stmt->execute();
     while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
