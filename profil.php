@@ -1,57 +1,59 @@
-<?php
-session_start();
 
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/profil.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="./profil.css">
+    <title>Messages</title>
 </head>
 <body>
     <div class="container">
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-                <li><a href="index.php">Accueil</a></li>
-                <li><a href="membres.php">Membres</a></li>
-                <li><a href="projets.php">Projets</a></li>
-                <?php 
-                if(!isset($_SESSION['user'])){ echo'<a href="profil.php"><img src="image/Profile1.png"></a>';}
-                 else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
-                ?>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="membres.html">Membres</a></li>
+                <li><a href="projets.html">Projets</a></li>
+                <a href="profil.html"><img src="image/2.jpg" alt=""></a>
              </ul>
             
         </nav>      
     </div>
     <div class="partie">
         <div class="left">
-            <ul>
+            <ul >
                 <li>
+                    <img src="./image/chat.svg">
                     <a href="#"> Messages</a>
                    
                 </li>
                 <li>
-                    <a href="ajoutprojet.php">Projets</a>
+                    <img src="./image/project.svg">
+                    <a href="#">Projets</a>
                 </li>
                 <li>
+                    <img src="./image/profile.svg">
                     <a href="#">Profil</a>
                     
                 </li>
             </ul>
         </div>
         <div class="right">
-
+            <div class="contact" id="contactes"> 
+            </div>
+            <h1>Messages</h1>
+            <div class="chat">
+                <div class="chatp" id="chatp">
+                    <img src="../Pshare/image/user.png" alt="">
+                    <p>Users</p>
+                </div>
+                <div class="content" id="content">
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-
-   
+    <script src="./chat.js"></script>
 </body>
 <footer>
     <div class="pied-page">

@@ -3,7 +3,7 @@
 function maFonction(int $id) {
     session_start();
     try {
-        $connexion = new PDO('mysql:host=localhost:3310;dbname=pshare;charset=utf8','root','');
+        $connexion = new PDO('mysql:host=localhost:3306;dbname=pshare;charset=utf8','root','');
         // Définir le mode d'erreur PDO à Exception
         $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch(PDOException $e) {

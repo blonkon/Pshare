@@ -74,27 +74,155 @@ nav ul li a:hover{
 /* Contenu */
 
 
-.parties{
+.partie{
     display: flex;
     flex-direction: row;
 }
 /* Sidebar */
 .left{
     width: 15%;
-    height: 500px;
+    padding-top: 26px;
+    
     background-color: #06708e;
     border-radius: 0px 14px 0px 0px;
 
 }
 .left li{
-    padding-top: 26px;
-    padding-left: 12%;
+    display: flex;
+    text-align: center;
+    justify-content: start;
+    padding-bottom: 26px ;
+    padding-left: 15%;
+    text-align: center;
 }
 
+.left li img{
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
 .left li a{
     text-decoration: none;
     color: #ffffff;
 }
+.right{
+    display: flex;
+    width: 85%;
+    flex-direction: column;
+}
+.contact{
+    display: flex;
+    padding-left: 2%;
+    overflow-x: auto;
+    cursor: pointer;
+}
+.contact::-webkit-scrollbar{
+    width: 3px;
+}
+.contact::-webkit-scrollbar-thumb{
+    background-color: linear-gradient(transparent,#06708e);
+    border-radius: 16px;
+
+}
+.contact div {
+    text-align: center;
+    margin:2%;
+}
+.contact div img , .chatp img{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 1px solid #06708e;
+}
+.contact div p , .chatp p{
+    width: auto;
+    font-family: "Poppins";
+    font-size: 12px;
+    color: #a0a0a0;
+}
+.chat{
+    height: 60vh;
+    display: flex;
+    flex-direction: row;
+}
+h1{
+text-align: center;
+}
+.chatp{
+    width: 15%;
+    text-align: center;
+    background-color: #F2F3C1;
+    padding-top: 2%;
+    border-top-right-radius: 20px;
+}
+.content{
+    width: 85%;
+    padding: 2%;
+    padding-bottom: 0%;
+    overflow-y: auto;
+}
+.content::-webkit-scrollbar{
+    width: 3px;
+}
+.content::-webkit-scrollbar-thumb{
+    background-color: linear-gradient(transparent,#06708e);
+    border-radius: 16px;
+
+}
+.messagebox {
+    display: flex;
+    width: 100%;
+    margin-bottom: 2%;
+    
+}
+.messagebox img{
+    width: 64px;
+    height: 64px;
+}
+.messagebox div p{
+    margin-left: 3%;
+    padding: 15%;
+    background-color: #F2F3C1;
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: "Poppins";
+}
+.messagebox div {
+    min-width: 10%;
+}
+.messagebox div span{
+    margin-left: 6%;
+    font-size: 10px;
+    color: #a0a0a0;
+    font-family: "Poppins";
+
+}
+
+.fixed-element {
+    position: sticky;
+    bottom: 0;
+    background-color: white; 
+    padding: 20px;
+    z-index: 1; 
+  }
+  .fixed-element input[type=text]{
+    border: 1px solid #06708e;
+    outline: none;
+    background-color: #F2F3C1;
+    border-radius: 20px;
+    padding: 2%;
+    margin: 2%;
+    width: 50%;
+  }
+  .fixed-element input[type=submit]{
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    background-color: #06708e;
+    padding: 2%;
+    /* width: 10%; */
+    color: #ffff;
+  }
 /* Fin Sidebar */
 
 
