@@ -16,7 +16,7 @@ foreach($data as $lidata){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https : //fonts.googleapis.com/css2?family= Poppins :wght@300 & display=swap" rel="stylesheet">
@@ -32,7 +32,11 @@ foreach($data as $lidata){
                 <li><a href="index.php">Accueil</a></li>
                 <li><a href="membres.php">Membres</a></li>
                 <li><a href="projets.php">Projets</a></li>
-                <a href="profil.php"><img src="image/2.jpg" alt=""></a>
+                <?php 
+                if(!isset($_SESSION['user'])){ echo'<a href="profil.php"><img src="image/Profile1.png"></a>';}
+                 else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
+                ?>
+
              </ul>
             
         </nav>      
@@ -55,7 +59,10 @@ foreach($data as $lidata){
                        <div class="card-head">
                         <img src="image/dossier.png" class="proad">
                        </div>
-                       <div class="title"><p><h4>Propriétaire:</h4></p>
+                       <div class="title">
+                                 <p><h4>Propriétaire:</h4></p>
+                                  <p><h6><?= $lidata['nom_complet']?></h6></p>
+                                 <p><h4>Nom du Projet:</h4></p>
                                   <p><h6><?= $lidata['nom_pt']?></h6></p>
                        </div>
                     </div>
@@ -64,34 +71,23 @@ foreach($data as $lidata){
                         <p><h6><?= $lidata['domaine'] ?></h6></p>
                     </div>   
                     <div class="statut">
-                        <p><h4>Statuts <img src="image/bouton-denregistrement.png" alt=""> :<?= $lidata['statut'] ?></h4></p>
+                        <p><h4>Statuts <?php 
+                if($lidata['statut']=='actif'){ echo'<img src="image/bouton-denregistrement.png">';}
+                 else{echo'<img src="image/bouton-denregistrement (1).png">';}
+                ?> :<?= $lidata['statut'] ?></h4></p>
                     </div>
                 </div>
-                <section class="contacter"> <button><a href="login.php">Contactez-Nous</a></button></section>
+                <section class="contacter"> <button>
+                <?php 
+                if(!isset($_SESSION['user'])){ echo'<a href="login.php">Contactez-Nous</a>';}
+                 else{echo'<a href="traitementc.php">Contactez-Nous</a>'; }
+               
+                ?>
+                </button></section>
             </div>
             <?php endforeach; ?>  
         </div>
-                <!-- 2 -->
-                <!-- <div class="card-single">    
-                    <div class="card-flex">
-                        <div class="card-info">
-                           <div class="card-head">
-                            <img src="image/dossier.png" class="proad">
-                           </div>
-                           <div class="title"><p><h4>Propriétaire:</h4></p>
-                                      <p><h6>Orange Digital Center</h6></p>
-                           </div>
-                        </div>
-                        <div class="info">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
-                        </div>   
-                        <div class="statut">
-                            <p><h4>Statuts <img src="image/bouton-denregistrement.png" alt=""> :active</h4></p>
-                        </div>
-                    </div>
-                    <section class="contacter"> <button><a href="login.php">Contactez-Nous</a></button></section>
-               </div> -->
+              
               
 </section>
     </section>
@@ -107,15 +103,15 @@ foreach($data as $lidata){
         <div class="references">
            <div class="single">
             <img src="image/pointeur-de-localisation.png" alt="">
-            <legend>ENI-ABT</legend>
+            <legend><h6>ENI-ABT</h6></legend>
            </div>
            <div class="single">
             <img src="image/enveloppe-de-courrier-electronique.png" alt="">
-            <legend>Pshareforalltheworld</legend>
+            <legend><h6>Pshareforalltheworld</h6></legend>
            </div>
              <div class="single">
                 <img src="image/appel-telephonique.png" alt="">
-                <legend>+22373492861</legend>
+                <legend><h6>+22373492861</h6></legend>
              </div>
         </div>
         <div class="reseaux">

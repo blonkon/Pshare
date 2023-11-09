@@ -1,4 +1,0 @@
-bleu:#06708e
-blanc:#ffffff
-gris:#aaaaaa
-repertoire:#f5f5bf

@@ -1,10 +1,24 @@
+<?php
+session_start();
+require "config.php";
+$con=new Operation();
+$data=$con->Afficher_compte();
+foreach($data as $lidata){
+    $nom=$lidata['nom_complet'];
+    $competence=$lidata['competence'];
+   
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="membres.css">
+    <link rel="stylesheet" href="css/membres.css">
     <title>Document</title>
+
 </head>
 <body>
     <div class="container">
@@ -14,237 +28,47 @@
                 <li><a href="index.php">Accueil</a></li>
                 <li><a href="membres.php">Membres</a></li>
                 <li><a href="projets.php">Projets</a></li>
-                <a href="profil.php"><img src="image/2.jpg" alt=""></a>
+                <?php 
+                if(!isset($_SESSION['user'])){ echo'<a href="profil.php"><img src="image/Profile1.png"></a>';}
+                 else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
+                ?>
              </ul>
             
         </nav>      
     </div>
     
-    <section class="corps">
-        <div class="toutes">
+    <!-- <section class="corps"> -->
+        <!-- <div class="toutes">
             <h5>toutes</h5>
         </div>
-        <div class="ligne1">
+        <div class="ligne1"> -->
+           
             <div class="cards1">
+            <?php foreach($data as $lidata):?>
                 <div class="card-single1">
                     <div class="card-flex1">
                         <div class="card-info1">
                            <div class="card-head1">
-                            <img src="image/2.jpg" class="proad">
+                            <?php echo'<img src="profil/'.$lidata['img'].'" class="proad">'; ?>
                            </div>
-                           <div class="title1"><p><h4>Daouda Fomba</h4></p>
-                                      <p><h6>React,Java</h6></p>
+                           <div class="title1"><p><h4><?= $lidata['nom_complet'] ?></h4></p>
+                                      <p><h6><?=$lidata['competence'] ?></h6></p>
                            </div>
-                        </div>
+                        </div><br><br>
                         <div class="info1">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
+                            <center><img src="image/enveloppe.png" alt="" id="i1" width="16px" height="16px">
+                            <img src="image/telecharger.png" alt="" id="i2" width="16px" height="16px"></center>
                         </div>   
                         <div class="statut1">
-                            <button><details>Details</details></button>
+                            <button><h3>Details</h3></button>
                         </div>
                     </div>
                 </div>
-               
-                  <!-- 2 eme cartes 1 ere ligne -->
-                <div class="card-single1">
-                    <div class="card-flex1">
-                        <div class="card-info1">
-                           <div class="card-head1">
-                            <img src="image/2.jpg" class="proad">
-                           </div>
-                           <div class="title1"><p><h4>Daouda Fomba</h4></p>
-                                      <p><h6>React,Java</h6></p>
-                           </div>
-                        </div>
-                        <div class="info1">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
-                        </div>   
-                        <div class="statut1">
-                            <button><details>Details</details></button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3 eme cartes 1 ere ligne -->
-                <div class="card-single1">
-                    <div class="card-flex1">
-                        <div class="card-info1">
-                           <div class="card-head1">
-                            <img src="image/2.jpg" class="proad">
-                           </div>
-                           <div class="title1"><p><h4>Daouda Fomba</h4></p>
-                                      <p><h6>React,Java</h6></p>
-                           </div>
-                        </div>
-                        <div class="info1">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
-                        </div>   
-                        <div class="statut1">
-                            <button><details>Details</details></button>
-                        </div>
-                    </div>
-                </div>
-
-               <!-- 4 eme cartes 1 ere ligne -->
-                <div class="card-single1">
-                    <div class="card-flex1">
-                        <div class="card-info1">
-                           <div class="card-head1">
-                            <img src="image/2.jpg" class="proad">
-                           </div>
-                           <div class="title1"><p><h4>Daouda Fomba</h4></p>
-                                      <p><h6>React,Java</h6></p>
-                           </div>
-                        </div>
-                        <div class="info1">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
-                        </div>   
-                        <div class="statut1">
-                            <button><details>Details</details></button>
-                        </div>
-                    </div>
-                </div>
-
-                  <!-- 5 eme cartes 1 ere ligne -->
-                  <div class="card-single1">
-                    <div class="card-flex1">
-                        <div class="card-info1">
-                           <div class="card-head1">
-                            <img src="image/2.jpg" class="proad">
-                           </div>
-                           <div class="title1"><p><h4>Daouda Fomba</h4></p>
-                                      <p><h6>React,Java</h6></p>
-                           </div>
-                        </div>
-                        <div class="info1">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
-                        </div>   
-                        <div class="statut1">
-                            <button><details>Details</details></button>
-                        </div>
-                    </div>
-                </div>
-        </div>
-
-         <!-- 1 ere cartes 2 eme ligne -->
-        <div class="ligne2">
-            <div class="cards2">
-                <div class="card-single2">
-                    <div class="card-flex2">
-                        <div class="card-info2">
-                           <div class="card-head2">
-                            <img src="image/2.jpg" class="proad">
-                           </div>
-                           <div class="title2"><p><h4>Ibrahim B Diakité</h4></p>
-                                      <p><h6>Flutter,Ajax</h6></p>
-                           </div>
-                        </div>
-                        <div class="info2">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
-                        </div>   
-                        <div class="statut2">
-                            <button><details>Details</details></button>
-                        </div>
-                    </div>
-            
-                </div>
-
-                 <!-- 2 eme cartes 2 eme ligne -->
-                <div class="card-single2">
-                    <div class="card-flex2">
-                        <div class="card-info2">
-                           <div class="card-head2">
-                            <img src="image/2.jpg" class="proad">
-                           </div>
-                           <div class="title2"><p><h4>Ibrahim B Diakité</h4></p>
-                                      <p><h6>Flutter,Ajax</h6></p>
-                           </div>
-                        </div>
-                        <div class="info2">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
-                        </div>   
-                        <div class="statut2">
-                            <button><details>Details</details></button>
-                        </div>
-                    </div>
-            
-                </div>
-
-              <!-- 3 eme cartes 2 eme ligne -->
-                <div class="card-single2">
-                    <div class="card-flex2">
-                        <div class="card-info2">
-                           <div class="card-head2">
-                            <img src="image/2.jpg" class="proad">
-                           </div>
-                           <div class="title2"><p><h4>Ibrahim B Diakité</h4></p>
-                                      <p><h6>Flutter,Ajax</h6></p>
-                           </div>
-                        </div>
-                        <div class="info2">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
-                        </div>   
-                        <div class="statut2">
-                            <button><details>Details</details></button>
-                        </div>
-                    </div>
-            
-                </div>
- 
-                  <!-- 4 eme cartes 2 eme ligne -->
-                <div class="card-single2">
-                    <div class="card-flex2">
-                        <div class="card-info2">
-                           <div class="card-head2">
-                            <img src="image/2.jpg" class="proad">
-                           </div>
-                           <div class="title2"><p><h4>Ibrahim B Diakité</h4></p>
-                                      <p><h6>Flutter,Ajax</h6></p>
-                           </div>
-                        </div>
-                        <div class="info2">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
-                        </div>   
-                        <div class="statut2">
-                            <button><details>Details</details></button>
-                        </div>
-                    </div>
-            
-                </div>
-
-
-                   <!-- 5 eme cartes 2 eme ligne -->
-                   <div class="card-single2">
-                    <div class="card-flex2">
-                        <div class="card-info2">
-                           <div class="card-head2">
-                            <img src="image/2.jpg" class="proad">
-                           </div>
-                           <div class="title2"><p><h4>Ibrahim B Diakité</h4></p>
-                                      <p><h6>Flutter,Ajax</h6></p>
-                           </div>
-                        </div>
-                        <div class="info2">
-                            <p><h4>Domaine:</h4></p>
-                            <p><h6>Informatique</h6></p>
-                        </div>   
-                        <div class="statut2">
-                            <button><details>Details</details></button>
-                        </div>
-                    </div>
-            
-                </div>
-
-        </div>
+                <?php endforeach; ?>
+                
+            </div> 
+                  
+        <!-- </div> -->
     </section>
     
 

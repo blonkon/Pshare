@@ -10,7 +10,7 @@ $con=new Operation();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="css/login.css">
     <title>Document</title>
 </head>
 <body>
@@ -21,7 +21,10 @@ $con=new Operation();
                 <li><a href="index.php">Accueil</a></li>
                 <li><a href="membres.php">Membres</a></li>
                 <li><a href="projets.php">Projets</a></li>
-                <a href="profil.php"><img src="image/2.jpg" alt=""></a>
+                <?php 
+                if(!isset($_SESSION['user'])){ echo'<a href="profil.php"><img src="image/Profile1.png"></a>';}
+                 else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
+                ?>
              </ul>
             
         </nav>      
@@ -63,9 +66,13 @@ $con=new Operation();
                    $vemail=$lidata['email_user'];
                    $vmdp=$lidata['mdp_user'];
                    $iduser=$lidata['num_users'];
+                   $image=$lidata['img'];
+                   $competence=$lidata['competence'];
                    $nom_complet=$lidata['nom_complet'];
                    $_SESSION["num_users"]=$iduser;
-                   $_SESSION["nom_complet"]=$nom_complet;
+                   $_SESSION["competence"]=$competence;
+                   $_SESSION["user"]=$nom_complet;
+                   $_SESSION["profil"]=$image;
                    if($vemail===$email && $vmdp===$mdp)
                       {
                           header("location:index.php");

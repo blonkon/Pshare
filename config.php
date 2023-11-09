@@ -5,7 +5,7 @@ class Operation
     private $con;
     public function __construct(){
     try {
-        $this->con=new PDO('mysql:host=localhost:3310;dbname=pshare;charset=utf8','root','');
+        $this->con=new PDO('mysql:host=localhost;dbname=pshare;charset=utf8','root','');
         // echo"La connexion est etablie!!!";
     } catch (PDOException $error1) 
     {
@@ -68,12 +68,12 @@ class Operation
          }
        }
 
-       public function Ajout_projet(int $id_user,string $nom_projet,string $domaine,string $statut,string $description,string $cahier)
+       public function Ajout_projet(int $id_user,string $nom_projet,string $domaine,string $statut,string $competence_n,string $description,string $cahier)
        {
          if($this->con)
          {
-            $con=$this->con->prepare("INSERT INTO users VALUES('',?,?,?,?,?,?)");
-            $con->execute(array($id_user,$nom_projet,$domaine,$statut,$description,$cahier));
+            $con=$this->con->prepare("INSERT INTO projet VALUES('',?,?,?,?,?,?,?)");
+            $con->execute(array($id_user,$nom_projet,$domaine,$statut,$competence_n,$description,$cahier));
             $con->closeCursor();
          }
        }
@@ -129,11 +129,90 @@ class Operation
        {
          if($this->con)
          {
-            $con=$this->con->prepare("SELECT * FROM projet");
+            $con=$this->con->prepare("SELECT * FROM projet,users WHERE projet.num_users=users.num_users");
             $data=$con->execute(array());
             $data=$con->fetchAll(PDO::FETCH_ASSOC);
             return $data;
             $con->closeCursor();
+         }
+       }
+
+       public function Afficher_projet_competence($competence)
+       {
+         if($this->con)
+         {
+            $con=$this->con->prepare("SELECT * FROM projet WHERE projet.num_users=users.num_users AND projet.competence_necessaire=?");
+            $data=$con->execute(array($competence));
+            $data=$con->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+            $con->closeCursor();
+         }
+       }
+
+
+       public function Total_card($competence)
+       {
+         if($this->con)
+         {
+            $con=$this->con->prepare("SELECT COUNT(projet.statut) AS total FROM users,projet WHERE projet.competence_necessaire=users.competence AND users.competence=?");
+            $data=$con->execute(array($competence));
+            $data=$con->fetchAll(PDO::FETCH_ASSOC);
+            $con->closeCursor();
+            if(count($data)>0)
+             {
+               foreach($data as $lidata)
+               {
+                  $total=$lidata['total'];
+  
+               }    
+
+             }
+             return $total;
+             $con->closeCursor();
+         }
+       }
+
+       public function Actif_card($competence)
+       {
+         if($this->con)
+         {
+            $con=$this->con->prepare("SELECT COUNT(projet.statut) AS actif FROM users,projet WHERE projet.competence_necessaire=users.competence AND users.competence=? AND projet.statut='actif'");
+            $data=$con->execute(array($competence));
+            $data=$con->fetchAll(PDO::FETCH_ASSOC);
+            $con->closeCursor();
+            if(count($data)>0)
+             {
+               foreach($data as $lidata)
+               {
+                  $actif=$lidata['actif'];
+  
+               }    
+
+             }
+             return $actif;
+             $con->closeCursor();
+         }
+       }
+
+       public function Close_card($competence)
+       {
+         if($this->con)
+         {
+            $con=$this->con->prepare("SELECT COUNT(projet.statut) AS clos FROM users,projet WHERE projet.competence_necessaire=users.competence AND users.competence=? AND projet.statut='clos'");
+            $data=$con->execute(array($competence));
+            $data=$con->fetchAll(PDO::FETCH_ASSOC);
+            $con->closeCursor();
+            if(count($data)>0)
+             {
+               foreach($data as $lidata)
+               {
+                  $clos=$lidata['clos'];
+  
+               }    
+
+             }
+             return $clos;
+             $con->closeCursor();
          }
        }
 

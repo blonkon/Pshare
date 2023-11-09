@@ -2,3 +2,15 @@ bleu:#06708e
 blanc:#ffffff
 gris:#aaaaaa
 repertoire:#f5f5bf
+
+
+Réquête pour connaitre le nombre de projet actif ou clos
+----------------------------------------------------------------------
+| SELECT COUNT(projet.statut) AS actif FROM projet WHERE projet.statut='actif'|
+|____________________________________________________________________|
+
+
+Réquête pour connaitre le nombre total de projet 
+----------------------------------------------------------------------
+| SELECT COUNT(projet.statut) AS total FROM projet                            |
+|____________________________________________________________________|
