@@ -178,10 +178,12 @@ text-align: center;
 .messagebox img{
     width: 64px;
     height: 64px;
+    border-radius: 50%;
 }
 .messagebox div p{
     margin-left: 3%;
-    padding: 15%;
+    width: 50%;
+    padding: 15px;
     background-color: #F2F3C1;
     border-radius: 20px;
     font-size: 12px;

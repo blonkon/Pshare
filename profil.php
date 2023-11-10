@@ -1,10 +1,17 @@
+<?php
+session_start();
 
+if (!isset( $_SESSION["num_users"])) {
+    header("Location: index.php");
+    exit(); 
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./profil.css">
+    <link rel="stylesheet" href="./css/profil.css">
     <title>Messages</title>
 </head>
 <body>
@@ -12,10 +19,13 @@
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="membres.html">Membres</a></li>
-                <li><a href="projets.html">Projets</a></li>
-                <a href="profil.html"><img src="image/2.jpg" alt=""></a>
+                <li><a href="index.php">Accueil</a></li>
+                <li><a href="membres.php">Membres</a></li>
+                <li><a href="projets.php">Projets</a></li>
+                <?php 
+                if(!isset($_SESSION['user'])){ echo'<a href="profil.php"><img src="image/Profile1.png"></a>';}
+                 else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
+                ?>
              </ul>
             
         </nav>      
@@ -45,7 +55,7 @@
             <h1>Messages</h1>
             <div class="chat">
                 <div class="chatp" id="chatp">
-                    <img src="../Pshare/image/user.png" alt="">
+                    <img src="./image/user.png" alt="">
                     <p>Users</p>
                 </div>
                 <div class="content" id="content">
@@ -53,7 +63,7 @@
             </div>
         </div>
     </div>
-    <script src="./chat.js"></script>
+    <script src="./js/chat.js"></script>
 </body>
 <footer>
     <div class="pied-page">

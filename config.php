@@ -5,7 +5,7 @@ class Operation
     private $con;
     public function __construct(){
     try {
-        $this->con=new PDO('mysql:host=localhost;dbname=pshare;charset=utf8','root','');
+        $this->con=new PDO('mysql:host=localhost:3310;dbname=pshare;charset=utf8','root','');
         // echo"La connexion est etablie!!!";
     } catch (PDOException $error1) 
     {

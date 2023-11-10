@@ -14,9 +14,10 @@ data.forEach(element => {
     const Div = document.createElement('div');
     const Paragraph = document.createElement('p');
     const images = document.createElement('img');
-    images.setAttribute('src','../Pshare/image/man.png');
+    images.setAttribute('src','../Pshare/profil/'+element.img);
     Paragraph.textContent = `${element.nom_complet}`;
     Paragraph.dataset.id = element.num_users;
+    Paragraph.dataset.image = element.img;
     Div.appendChild(images);
     Div.appendChild(Paragraph);
     parentElement.appendChild(Div);
@@ -28,7 +29,8 @@ data.forEach(element => {
     
       const content = Profile.querySelector('p'); 
       content.textContent = Paragraph.textContent;
-      getmessageforid(Paragraph.dataset.id);
+      getmessageforid(Paragraph.dataset.id,Paragraph.dataset.image);
+      setInterval(getmessageforid(Paragraph.dataset.id,Paragraph.dataset.image), 1000);
   
     });
 
@@ -40,7 +42,7 @@ data.forEach(element => {
   console.error('Une erreur s\'est produite :', error);
 });
 
-function getmessageforid(id) {
+function getmessageforid(id,img) {
   fetch("messageforuserid.php?action=messagebox&user_id=" + id)
                 .then(response => response.json())
                 .then(data => {
@@ -49,59 +51,72 @@ function getmessageforid(id) {
                     while (parentElement.firstChild) {
                       parentElement.removeChild(parentElement.firstChild);
                   }
+                  
+                  fetch("messageforuserid.php?action=getmyid")
+                  .then(response => response.json())
+                  .then(dataa => {
+                    monid = dataa;
+                    console.log("ici l'id du gars connecte "+monid);
                     data.forEach(element => {
                       const Div = document.createElement('div');
                       const Div2 = document.createElement('div');
                       const Paragraph = document.createElement('p');
                       const images = document.createElement('img');
                       const span = document.createElement('span');
-                      span.textContent=formatDate(element.date);
+                      span.textContent=formatDateWithTime(element.date);
+                      //here im trying to get the id on the connected man 
+                     
+                            // apres changer le 1 avec l'id de l'element connecte 
+                     if (element.sender==monid) {
+                      console.log("ici l'id du gars connecte "+monid);
+                      images.setAttribute('src','../Pshare/image/moi.png');
+                      }else{
+                       images.setAttribute('src','../Pshare/profil/'+img);
+                       Paragraph.style.backgroundColor = "#06708e";
+                       Paragraph.style.color = "#FFF";
+                       Div.style.flexDirection = "row-reverse";
+                       Paragraph.style.marginLeft = "43%";
+                      }
+                       Paragraph.textContent = `${element.contenu}`;
+                       Div.setAttribute('class','messagebox');
+                       // Paragraph.dataset.id = element.num_users;
+                       Div.appendChild(images);
+                       Div2.appendChild(Paragraph);
+                       Div2.appendChild(span);
+                       Div.appendChild(Div2);
+                       parentElement.appendChild(Div);
                       
-                      // apres changer le 1 avec l'id de l'element connecte 
-                     if (element.sender==1) {
-                     images.setAttribute('src','../Pshare/image/moi.png');
-                     }else{
-                      images.setAttribute('src','../Pshare/image/man.png');
-                      Div.style.flexDirection = "row-reverse";
-                     }
-                      Paragraph.textContent = `${element.contenu}`;
-                      Div.setAttribute('class','messagebox');
-                      // Paragraph.dataset.id = element.num_users;
-                      Div.appendChild(images);
-                      Div2.appendChild(Paragraph);
-                      Div2.appendChild(span);
-                      Div.appendChild(Div2);
-                      parentElement.appendChild(Div);
                     });
-                    const Div = document.createElement('div');
-                    const form = document.createElement('form');
-                    const input1 = document.createElement('input');
-                    const input2 = document.createElement('input');
-                    const input3 = document.createElement('input');
-                    Div.setAttribute('class','fixed-element');
-                    input1.setAttribute('type','text');
-                    input1.setAttribute('name','content');
-                    input1.setAttribute('placeholder',"Votre message");
-                    input2.setAttribute('type','submit');
-                    input2.setAttribute('value','Envoyer');
-                    input3.setAttribute('name','id');
-                    input3.setAttribute('value',`${id}`);
-                    input3.style.display='none';
-                    form.setAttribute('method','POST');
-                    form.setAttribute('action','sendmessage.php');
-                    Div.appendChild(input1);
-                    Div.appendChild(input3);
-                    Div.appendChild(input2);
-                    
-                    form.appendChild(Div);
-                    parentElement.appendChild(form);
+                      const Div = document.createElement('div');
+                      const input1 = document.createElement('input');
+                      const input2 = document.createElement('input');
+                      const input3 = document.createElement('input');
+                      Div.setAttribute('class','fixed-element');
+                      input1.setAttribute('type','text');
+                      input1.setAttribute('name','content');
+                      input1.setAttribute('placeholder',"Votre message");
+                      input2.setAttribute('type','submit');
+                      input2.setAttribute('value','Envoyer');
+                      input3.setAttribute('name','id');
+                      input3.setAttribute('value',`${id}`);
+                      input3.style.display='none';
+                      Div.appendChild(input1);
+                      Div.appendChild(input3);
+                      Div.appendChild(input2);
+                      input2.addEventListener('click', function() {
+                        sending(id,input1.value,img)
+
+                      });
+                      parentElement.appendChild(Div);
+                  });
+                 
                 })
                 .catch(error => {
                     console.log(error);
                 });
   
 }
-function formatDate(value) {
+function formatDateWithTime(value) {
   const aujourdHui = new Date();
   const hier = new Date(aujourdHui);
   hier.setDate(aujourdHui.getDate() - 1);
@@ -109,11 +124,55 @@ function formatDate(value) {
   const dateValue = new Date(value);
 
   if (dateValue.toDateString() === aujourdHui.toDateString()) {
-    return "Aujourd'hui";
+    // Ajoutez l'heure pour aujourd'hui
+    const options = { hour: 'numeric', minute: 'numeric' };
+    return "Aujourd'hui " + dateValue.toLocaleTimeString(undefined, options);
   } else if (dateValue.toDateString() === hier.toDateString()) {
-    return "Hier";
+    // Ajoutez l'heure pour hier
+    const options = { hour: 'numeric', minute: 'numeric' };
+    return "Hier " + dateValue.toLocaleTimeString(undefined, options);
   } else {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    // Ajoutez l'heure pour les autres jours
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: 'numeric', minute: 'numeric' };
     return dateValue.toLocaleDateString(undefined, options);
   }
 }
+
+function sending(id,content,img) {  
+  
+  const data = {
+    id: id,
+    content: content
+  };
+ 
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json' 
+    },
+    body: JSON.stringify(data)
+  };
+  
+  
+  // Utilisation de Fetch pour envoyer la requête
+  fetch("sendmessage.php", options)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('La requête a échoué');
+      }
+      return response.json(); 
+    })
+    .then(data => {
+      console.log('Réponse reçue avec succès :', data);
+      getmessageforid(id,img);
+     
+    })
+    .catch(error => {
+      console.error('Une erreur s\'est produite lors de la requête :', error);
+    });
+  
+}
+
+
+
+

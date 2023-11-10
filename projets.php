@@ -2,11 +2,14 @@
 session_start();
 require "config.php";
 $con=new Operation();
-$total=$con->Total_card($_SESSION['competence']);
-$actif=$con->Actif_card($_SESSION['competence']);
-$clos=$con->Close_card($_SESSION['competence']);
+// $total=$con->Total_card($_SESSION['competence']);
+// $actif=$con->Actif_card($_SESSION['competence']);
+// $clos=$con->Close_card($_SESSION['competence']);
+$actif =1;
+$total =2;
+$clos =1;
 $data=$con->Afficher_projet();
-
+session_destroy();
 
 ?>
 <!DOCTYPE html>
@@ -17,8 +20,8 @@ $data=$con->Afficher_projet();
     <link rel="stylesheet" href="css/projets.css">
     <title>Document</title>
    <?php  
-       $p_actif=($actif/$total)*100;
-       $p_clos=($clos/$total)*100;
+        $p_actif=($actif/$total)*100;
+        $p_clos=($clos/$total)*100;
       
    echo "
    <style type='text/css'>
