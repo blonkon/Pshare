@@ -22,7 +22,7 @@ data.forEach(element => {
     Div.appendChild(Paragraph);
     parentElement.appendChild(Div);
     Div.addEventListener('click', function() {
-      console.log(`id de l'element clique cliqué : ${Paragraph.dataset.id}`);
+    
       const Profile = document.getElementById("chatp");
       const image = Profile.querySelector("img"); 
       image.setAttribute('src', images.getAttribute('src')); 
@@ -30,9 +30,25 @@ data.forEach(element => {
       const content = Profile.querySelector('p'); 
       content.textContent = Paragraph.textContent;
       getmessageforid(Paragraph.dataset.id,Paragraph.dataset.image);
-      setInterval(getmessageforid(Paragraph.dataset.id,Paragraph.dataset.image), 1000);
+      
   
-    });
+      const previousIntervalID = localStorage.getItem('myIntervalID');
+
+      // Effacez l'intervalle précédent avant de planifier un nouveau
+      if (previousIntervalID) {
+        clearInterval(parseInt(previousIntervalID, 10));
+      }
+
+      // Planifiez un nouveau intervalle avec la fonction souhaitée (ex : getmessageforid)
+      const newIntervalID = setInterval(function() {
+        console.log("juste un avec " + Paragraph.dataset.id);
+        addnewmessage(Paragraph.dataset.id,Paragraph.dataset.image);
+      }, 1000);
+
+      // Stockez le nouvel ID de l'intervalle dans le localStorage
+      localStorage.setItem('myIntervalID', newIntervalID.toString());
+          
+        });
 
 
 });
@@ -56,7 +72,7 @@ function getmessageforid(id,img) {
                   .then(response => response.json())
                   .then(dataa => {
                     monid = dataa;
-                    console.log("ici l'id du gars connecte "+monid);
+                    // console.log("ici l'id du gars connecte "+monid);
                     data.forEach(element => {
                       const Div = document.createElement('div');
                       const Div2 = document.createElement('div');
@@ -64,11 +80,8 @@ function getmessageforid(id,img) {
                       const images = document.createElement('img');
                       const span = document.createElement('span');
                       span.textContent=formatDateWithTime(element.date);
-                      //here im trying to get the id on the connected man 
-                     
-                            // apres changer le 1 avec l'id de l'element connecte 
                      if (element.sender==monid) {
-                      console.log("ici l'id du gars connecte "+monid);
+                      // console.log("ici l'id du gars connecte "+monid);
                       images.setAttribute('src','../Pshare/image/moi.png');
                       }else{
                        images.setAttribute('src','../Pshare/profil/'+img);
@@ -105,6 +118,7 @@ function getmessageforid(id,img) {
                       Div.appendChild(input2);
                       input2.addEventListener('click', function() {
                         sending(id,input1.value,img)
+                        input1.value="";
 
                       });
                       parentElement.appendChild(Div);
@@ -164,7 +178,23 @@ function sending(id,content,img) {
     })
     .then(data => {
       console.log('Réponse reçue avec succès :', data);
-      getmessageforid(id,img);
+      const Div = document.createElement('div');
+      const Div2 = document.createElement('div');
+      const Paragraph = document.createElement('p');
+      const images = document.createElement('img');
+      const span = document.createElement('span');
+      span.textContent=formatDateWithTime(new Date());
+      images.setAttribute('src','../Pshare/image/moi.png');
+      Paragraph.textContent = `${content}`;
+      Div.setAttribute('class','messagebox');
+      // Paragraph.dataset.id = element.num_users;
+      Div.appendChild(images);
+      Div2.appendChild(Paragraph);
+      Div2.appendChild(span);
+      Div.appendChild(Div2);
+      // parentElement.appendChild(Div);
+      const parentElement1 = document.getElementById("content");
+      parentElement1.prepend(Div);
      
     })
     .catch(error => {
@@ -172,7 +202,63 @@ function sending(id,content,img) {
     });
   
 }
+function addnewmessage(id,img) {
 
+  fetch("messageforuserid.php?action=newmessage&user_id=" + id)
+                .then(response => response.json())
+                .then(data => {
+                    // console.log(data);
+                  //   const parentElement = document.getElementById("content");
+                  //   while (parentElement.firstChild) {
+                  //     parentElement.removeChild(parentElement.firstChild);
+                  // }
+                  if (data) {
+                    fetch("messageforuserid.php?action=getmyid")
+                  .then(response => response.json())
+                  .then(dataa => {
+                    monid = dataa;
+                    if (data["nothing"]!=true) {
+                      data.forEach(element=>{
+
+                        //je supprimer l'element du newmessage
+                        console.log("ici l'id du truc qui doit etre"+element.num_mes);
+                        fetch("messageforuserid.php?action=delete&del=" + element.num_mes)
+                        .then(response => {
+                        const Div = document.createElement('div');
+                        const Div2 = document.createElement('div');
+                        const Paragraph = document.createElement('p');
+                        const images = document.createElement('img');
+                        const span = document.createElement('span');
+                        span.textContent=formatDateWithTime(element.date);
+                      if (element.sender==monid) {
+                        images.setAttribute('src','../Pshare/image/moi.png');
+                        }else{
+                        images.setAttribute('src','../Pshare/profil/'+img);
+                        Paragraph.style.backgroundColor = "#06708e";
+                        Paragraph.style.color = "#FFF";
+                        Div.style.flexDirection = "row-reverse";
+                        Paragraph.style.marginLeft = "43%";
+                        }
+                        Paragraph.textContent = `${element.contenu}`;
+                        Div.setAttribute('class','messagebox');
+                        // Paragraph.dataset.id = element.num_users;
+                        Div.appendChild(images);
+                        Div2.appendChild(Paragraph);
+                        Div2.appendChild(span);
+                        Div.appendChild(Div2);
+                        // parentElement.appendChild(Div);
+                        const parentElement1 = document.getElementById("content");
+                        parentElement1.prepend(Div);
+                      })
+                      })
+                    }
+                   
+                  
+})
+                  }
+                  
+})
+}
 
 
 

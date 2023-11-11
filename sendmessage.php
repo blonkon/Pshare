@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch(PDOException $e) {
         die("Erreur de connexion à la base de données : " . $e->getMessage());
     }
-    
+        
             $monid =  $_SESSION["num_users"];
             $requete = "INSERT INTO `message` (`num_mes`, `sender`, `contenu`, `date`, `recever`) 
                        VALUES (NULL, $monid, :content, NOW(), :receiver)";
@@ -30,6 +30,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':receiver', $donnees['id']);
             $stmt->execute();
 
+            $id_mes = $connexion->lastInsertId();
+
+            //essayons d'inserer le message dans new message  
+            $requete1 = "INSERT INTO `newmessage` (`id`, `sender`, `message_id`, `recever`) 
+                       VALUES (NULL, $monid, :messageid, :receiver)";
+            $stmt = $connexion->prepare($requete1);
+            $stmt->bindParam(':messageid', $id_mes);
+            $stmt->bindParam(':receiver', $donnees['id']);
+            $stmt->execute();
+
+            
     // Réponse JSON en cas de succès
     echo json_encode(['success' => true]);
 } else {
