@@ -108,4 +108,63 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete') {
    
 }
 
+if (isset($_GET['action']) && $_GET['action'] === 'deletemessage') {
+    if (isset($_GET['del']) && isset($_GET['recever_id'])) {
+        try {
+            $connexion = new PDO('mysql:host=localhost:3310;dbname=pshare;charset=utf8','root','');
+            // Définir le mode d'erreur PDO à Exception
+            $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $e) {
+            die("Erreur de connexion à la base de données : " . $e->getMessage());
+        }
+        $id=$_GET['del'];
+        $monid = $_SESSION['num_users'];
+        $recever_id=$_GET['recever_id'];
+        $requete = "UPDATE `message` SET `contenu` = 'message supprime' WHERE `message`.`num_mes`=$id";
+        $stmt = $connexion->prepare($requete);
+        $stmt->execute();
+        // // // while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // //      $utilisateurs[] = $ligne;
+        // //  }
+        $requete = "INSERT INTO `deletemessage` (`id`, `message_id`, `sender`, `recever`) VALUES (NULL, $id, $monid,$recever_id )";
+        $stmt = $connexion->prepare($requete);
+        $stmt->execute();
+        echo json_encode(['success' => true]);
+    }
+   
+}
+
+if (isset($_GET['action']) && $_GET['action'] === 'deletedmessage') {
+    if (isset($_GET['user_id'])) {
+        try {
+            $connexion = new PDO('mysql:host=localhost:3310;dbname=pshare;charset=utf8','root','');
+            // Définir le mode d'erreur PDO à Exception
+            $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $e) {
+            die("Erreur de connexion à la base de données : " . $e->getMessage());
+        }
+        $id=$_GET['user_id'];
+        $monid = $_SESSION["num_users"];
+        
+        $requete = " SELECT message_id FROM `deletemessage` WHERE sender=$id and recever=$monid
+        ";
+        $stmt = $connexion->prepare($requete);
+        $stmt->execute();
+        while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $utilisateurs[] = $ligne;
+        }
+        $requete = " DELETE FROM `deletemessage` WHERE sender=$id and recever=$monid
+        ";
+        $stmt = $connexion->prepare($requete);
+        $stmt->execute();
+        if (!empty($utilisateurs)) {
+            echo json_encode($utilisateurs); 
+        }else{
+            echo json_encode(['nothing' => true]);
+        }
+        
+    }
+   
+}
+
 ?>
