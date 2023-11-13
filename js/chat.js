@@ -33,20 +33,14 @@ data.forEach(element => {
       
   
       const previousIntervalID = localStorage.getItem('myIntervalID');
-
-      // Effacez l'intervalle précédent avant de planifier un nouveau
       if (previousIntervalID) {
         clearInterval(parseInt(previousIntervalID, 10));
       }
-
-      // Planifiez un nouveau intervalle avec la fonction souhaitée (ex : getmessageforid)
       const newIntervalID = setInterval(function() {
-        console.log("juste un avec " + Paragraph.dataset.id);
+        console.log("num user " + element.num_users);
         addnewmessage(Paragraph.dataset.id,Paragraph.dataset.image);
         deletedmessage(element.num_users);
       }, 1000);
-
-      // Stockez le nouvel ID de l'intervalle dans le localStorage
       localStorage.setItem('myIntervalID', newIntervalID.toString());
           
         });
@@ -63,7 +57,7 @@ function getmessageforid(id,img) {
   fetch("messageforuserid.php?action=messagebox&user_id=" + id)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     const parentElement = document.getElementById("content");
                     while (parentElement.firstChild) {
                       parentElement.removeChild(parentElement.firstChild);
@@ -72,9 +66,8 @@ function getmessageforid(id,img) {
                   fetch("messageforuserid.php?action=getmyid")
                   .then(response => response.json())
                   .then(dataa => {
-                    monid = dataa;
-                    // console.log("ici l'id du gars connecte "+monid);
-                    data.forEach(element => {
+                      monid = dataa;
+                      data.forEach(element => {
                       const Div = document.createElement('div');
                       const Div2 = document.createElement('div');
                       const Paragraph = document.createElement('p');
@@ -84,25 +77,29 @@ function getmessageforid(id,img) {
                       spandel.textContent = "supprimer";
                       spandel.style.color = "red";
                       span.textContent=formatDateWithTime(element.date);
-                     if (element.sender==monid) {
-                      // console.log("ici l'id du gars connecte "+monid);
+                      if (element.sender==monid) {
                       images.setAttribute('src','../Pshare/image/moi.png');
                       Paragraph.style.backgroundColor = "#06708e";
                       Paragraph.style.color = "#FFF";
                       Paragraph.textContent = `${element.contenu}`;
+                      Paragraph.dataset.id=element.num_mes;
                       Div2.appendChild(Paragraph);
                       Div2.appendChild(span);
-                      Div2.appendChild(spandel);
+                      if (element.deleted===0) {
+                        spandel.style.cursor = "pointer";
+                        Div2.appendChild(spandel);
+                        
+                          }
+                      
                       spandel.addEventListener('click', function() {
                         var reponse = confirm('Voulez-vous supprimer ce message ?');
-
                         // Vérifiez la réponse
                         if (reponse) {
                           console.log('Oui a été sur cet element '+element.recever);
                           fetch("messageforuserid.php?action=deletemessage&del="+element.num_mes+"&recever_id="+element.recever)
                         .then(response => {
-                          console.log("message supprimer "+element.num_mes);
                           Paragraph.textContent = "Message supprime";
+                          spandel.remove();
                         })
                           
                         }
@@ -110,26 +107,12 @@ function getmessageforid(id,img) {
                       }else{
                        images.setAttribute('src','../Pshare/profil/'+img);
                        Paragraph.textContent = `${element.contenu}`;
+                       Paragraph.dataset.id=element.num_mes;
                        Div2.appendChild(Paragraph);
                        Div2.appendChild(span);
-                      //  Div2.appendChild(spandel);
-                      //  spandel.addEventListener('click', function() {
-                      //   console.log("message with id deleted");
-                      //  });
-                      //  Div.style.flexDirection = "row-reverse";
-                      //  Paragraph.style.marginLeft = "43%";
                       }
-                      //  Paragraph.textContent = `${element.contenu}`;
                        Div.setAttribute('class','messagebox');
-                       Div.dataset.id=element.num_mes;
-                       // Paragraph.dataset.id = element.num_users;
                        Div.appendChild(images);
-                      //  Div2.appendChild(Paragraph);
-                      //  Div2.appendChild(span);
-                      //  Div2.appendChild(spandel);
-                      //  spandel.addEventListener('click', function() {
-                      //   console.log("message with id deleted");
-                      //  });
                        Div.appendChild(Div2);
                        parentElement.appendChild(Div);
                       
@@ -153,7 +136,6 @@ function getmessageforid(id,img) {
                       input2.addEventListener('click', function() {
                         sending(id,input1.value,img)
                         input1.value="";
-
                       });
                       parentElement.appendChild(Div);
                   });
@@ -217,6 +199,9 @@ function sending(id,content,img) {
       const Paragraph = document.createElement('p');
       const images = document.createElement('img');
       const span = document.createElement('span');
+      const spandel = document.createElement('span');
+      spandel.textContent = "supprimer";
+      spandel.style.color = "red";
       span.textContent=formatDateWithTime(new Date());
       images.setAttribute('src','../Pshare/image/moi.png');
         Paragraph.style.backgroundColor = "#06708e";
@@ -225,12 +210,27 @@ function sending(id,content,img) {
         
       Paragraph.textContent = `${content}`;
       Div.setAttribute('class','messagebox');
+      Paragraph.dataset.id=data;
       // Paragraph.dataset.id = element.num_users;
       Div.appendChild(images);
       Div2.appendChild(Paragraph);
       Div2.appendChild(span);
+      Div2.appendChild(spandel);
       Div.appendChild(Div2);
       // parentElement.appendChild(Div);
+      spandel.addEventListener('click', function() {
+        var reponse = confirm('Voulez-vous supprimer ce message ?');
+        // Vérifiez la réponse
+        if (reponse) {
+          console.log('Oui a été sur cet element '+id);
+          fetch("messageforuserid.php?action=deletemessage&del="+data+"&recever_id="+id)
+        .then(response => {
+          Paragraph.textContent = "Message supprime";
+          spandel.remove();
+        })
+          
+        }
+      });
       const parentElement1 = document.getElementById("content");
       parentElement1.prepend(Div);
      
@@ -305,45 +305,14 @@ function deletedmessage(id) {
   fetch("messageforuserid.php?action=deletedmessage&user_id="+id)
                 .then(response => response.json())
                 .then(data => {
-                    
-                  //   const parentElement = document.getElementById("content");
-                  //   while (parentElement.firstChild) {
-                  //     parentElement.removeChild(parentElement.firstChild);
-                  // }
                   if (data) {
                     fetch("messageforuserid.php?action=getmyid")
                   .then(response => response.json())
                   .then(dataa => {
                     monid = dataa;
                     if (data["nothing"]!=true) {
-                      data.forEach(element=>{
-                                            
-                    var contentElement = document.getElementById('content');
-
-                    // Vérifiez si l'élément existe
-                    if (contentElement) {
-                      // Parcourez tous les enfants de l'élément
-                      for (var i = 0; i < contentElement.children.length; i++) {
-                        // Accédez à chaque enfant
-                        var childElement = contentElement.children[i];
-
-                        // Vérifiez si l'enfant a la classe "messagebox"
-                        if (childElement.classList.contains('messagebox') && childElement.dataset.id===element.message_id) {
-                          // Parcourez tous les enfants de l'enfant avec la classe "messagebox"
-                          for (var j = 0; j < childElement.children.length; j++) {
-                            // Accédez à chaque sous-enfant
-                            var subChildElement = childElement.children[j];
-
-                            // Vérifiez si le sous-enfant est un élément <p>
-                            if (subChildElement.tagName.toLowerCase() === 'p') {
-                              // Faites quelque chose avec l'élément <p>
-                              subChildElement.textContent = "message supprime";
-                              console.log('Élément <p> trouvé:', subChildElement.textContent);
-                            }
-                          }
-                        }
-                      }
-                    }
+                    data.forEach(element=>{                      
+                    
                     
                       })
                     }

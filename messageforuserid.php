@@ -129,6 +129,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'deletemessage') {
         $requete = "INSERT INTO `deletemessage` (`id`, `message_id`, `sender`, `recever`) VALUES (NULL, $id, $monid,$recever_id )";
         $stmt = $connexion->prepare($requete);
         $stmt->execute();
+        $requete = "UPDATE `message` SET `deleted` = 1 WHERE `message`.`num_mes`=$id";
+        $stmt = $connexion->prepare($requete);
+        $stmt->execute();
+        
         echo json_encode(['success' => true]);
     }
    

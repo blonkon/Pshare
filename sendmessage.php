@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             
     // Réponse JSON en cas de succès
-    echo json_encode(['success' => true]);
+    echo json_encode($id_mes);
 } else {
     // Réponse JSON en cas d'erreur
     echo json_encode(['error' => 'Méthode non autorisée']);
