@@ -171,4 +171,32 @@ if (isset($_GET['action']) && $_GET['action'] === 'deletedmessage') {
    
 }
 
+
+if (isset($_GET['action']) && $_GET['action'] === 'notification') {
+        try {
+            $connexion = new PDO('mysql:host=localhost:3310;dbname=pshare;charset=utf8','root','');
+            // Définir le mode d'erreur PDO à Exception
+            $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $e) {
+            die("Erreur de connexion à la base de données : " . $e->getMessage());
+        }
+        
+        $monid = $_SESSION["num_users"];
+        
+        $requete = " SELECT sender FROM `newmessage` WHERE recever=$monid
+        ";
+        $stmt = $connexion->prepare($requete);
+        $stmt->execute();
+        while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $utilisateurs[] = $ligne;
+        }
+        if (!empty($utilisateurs)) {
+            echo json_encode($utilisateurs); 
+        }else{
+            echo json_encode(['nothing' => true]);
+        }
+        
+    }
+   
+
 ?>

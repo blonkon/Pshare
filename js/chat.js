@@ -13,14 +13,51 @@ data.forEach(element => {
   console.log(element.num_users);
     const Div = document.createElement('div');
     const Paragraph = document.createElement('p');
+    const span = document.createElement('span');
+    span.style.display ="none";
+    span.style.backgroundColor  = "#d63c4e";
+    span.style.position = "absolute";
+    span.style.height = "10px";
+    span.style.width = "10px";
+    span.style.left = "64px"; 
+    span.style.borderRadius = "50%";
+    Div.style.position = "relative";
+    
     const images = document.createElement('img');
     images.setAttribute('src','../Pshare/profil/'+element.img);
     Paragraph.textContent = `${element.nom_complet}`;
     Paragraph.dataset.id = element.num_users;
+    span.id=element.num_users*-1;
     Paragraph.dataset.image = element.img;
+    Div.appendChild(span);
     Div.appendChild(images);
     Div.appendChild(Paragraph);
     parentElement.appendChild(Div);
+    //notification dot 
+    const previousIntervalID = localStorage.getItem('myIntervalID11');
+    if (previousIntervalID) {
+      clearInterval(parseInt(previousIntervalID, 10));
+    }
+    const newIntervalID = setInterval(function() {
+      console.log("num user " + element.num_users);
+      fetch("messageforuserid.php?action=notification")
+      .then(response => response.json())
+      .then(data => {
+      if (data["nothing"]!=true) {
+        data.forEach(element=>{
+          val = element.sender*-1;
+          var element1 = document.getElementById(val);
+          if (element1) {
+            element1.style.display = "inline";
+              }
+        })
+      }
+        
+      });
+      
+    }, 1000);
+    localStorage.setItem('myIntervalID11', newIntervalID.toString());
+      
     Div.addEventListener('click', function() {
     
       const Profile = document.getElementById("chatp");
@@ -29,6 +66,11 @@ data.forEach(element => {
     
       const content = Profile.querySelector('p'); 
       content.textContent = Paragraph.textContent;
+      val = Paragraph.dataset.id*-1;
+      var element1 = document.getElementById(val);
+      if (element1) {
+        element1.style.display = "none";
+          }
       getmessageforid(Paragraph.dataset.id,Paragraph.dataset.image);
       
   
@@ -40,7 +82,7 @@ data.forEach(element => {
         console.log("num user " + element.num_users);
         addnewmessage(Paragraph.dataset.id,Paragraph.dataset.image);
         deletedmessage(element.num_users);
-      }, 1000);
+      }, 2000);
       localStorage.setItem('myIntervalID', newIntervalID.toString());
           
         });
@@ -82,7 +124,7 @@ function getmessageforid(id,img) {
                       Paragraph.style.backgroundColor = "#06708e";
                       Paragraph.style.color = "#FFF";
                       Paragraph.textContent = `${element.contenu}`;
-                      Paragraph.dataset.id=element.num_mes;
+                      Paragraph.id=element.num_mes;
                       Div2.appendChild(Paragraph);
                       Div2.appendChild(span);
                       if (element.deleted===0) {
@@ -98,7 +140,7 @@ function getmessageforid(id,img) {
                           console.log('Oui a été sur cet element '+element.recever);
                           fetch("messageforuserid.php?action=deletemessage&del="+element.num_mes+"&recever_id="+element.recever)
                         .then(response => {
-                          Paragraph.textContent = "Message supprime";
+                          Paragraph.textContent = "message supprime";
                           spandel.remove();
                         })
                           
@@ -107,7 +149,7 @@ function getmessageforid(id,img) {
                       }else{
                        images.setAttribute('src','../Pshare/profil/'+img);
                        Paragraph.textContent = `${element.contenu}`;
-                       Paragraph.dataset.id=element.num_mes;
+                       Paragraph.id=element.num_mes;
                        Div2.appendChild(Paragraph);
                        Div2.appendChild(span);
                       }
@@ -197,6 +239,7 @@ function sending(id,content,img) {
       const Div = document.createElement('div');
       const Div2 = document.createElement('div');
       const Paragraph = document.createElement('p');
+      Paragraph.id=data;
       const images = document.createElement('img');
       const span = document.createElement('span');
       const spandel = document.createElement('span');
@@ -210,11 +253,12 @@ function sending(id,content,img) {
         
       Paragraph.textContent = `${content}`;
       Div.setAttribute('class','messagebox');
-      Paragraph.dataset.id=data;
+      
       // Paragraph.dataset.id = element.num_users;
       Div.appendChild(images);
       Div2.appendChild(Paragraph);
       Div2.appendChild(span);
+      spandel.style.cursor = "pointer";
       Div2.appendChild(spandel);
       Div.appendChild(Div2);
       // parentElement.appendChild(Div);
@@ -225,7 +269,7 @@ function sending(id,content,img) {
           console.log('Oui a été sur cet element '+id);
           fetch("messageforuserid.php?action=deletemessage&del="+data+"&recever_id="+id)
         .then(response => {
-          Paragraph.textContent = "Message supprime";
+          Paragraph.textContent = "message supprime";
           spandel.remove();
         })
           
@@ -259,7 +303,7 @@ function addnewmessage(id,img) {
                       data.forEach(element=>{
 
                         //je supprimer l'element du newmessage
-                        console.log("ici l'id du truc qui doit etre"+element.num_mes);
+                        // console.log("ici l'id du truc qui doit etre"+element.num_mes);
                         fetch("messageforuserid.php?action=delete&del=" + element.num_mes)
                         .then(response => {
                         const Div = document.createElement('div');
@@ -268,6 +312,7 @@ function addnewmessage(id,img) {
                         const images = document.createElement('img');
                         const span = document.createElement('span');
                         span.textContent=formatDateWithTime(element.date);
+                        Paragraph.id=element.num_mes;
                         if (element.sender==monid) {
                           // console.log("ici l'id du gars connecte "+monid);
                           images.setAttribute('src','../Pshare/image/moi.png');
@@ -313,17 +358,18 @@ function deletedmessage(id) {
                     if (data["nothing"]!=true) {
                     data.forEach(element=>{                      
                     
-                    
+                    var element1 = document.getElementById(element.message_id);
+                    console.log(element1);
+                    if (element1) {
+                      console.log(element.message_id);
+                      element1.textContent = "message supprime";
+                        }
                       })
-                    }
-                   
-                  
-})
-                  }
-                  
-})
-  
-}
+                    }                 
+                  })
+                } 
+              })
+            }
 
 
 

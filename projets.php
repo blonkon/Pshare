@@ -9,7 +9,7 @@ $actif =1;
 $total =2;
 $clos =1;
 $data=$con->Afficher_projet();
-session_destroy();
+// session_destroy();
 
 ?>
 <!DOCTYPE html>
