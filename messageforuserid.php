@@ -197,6 +197,36 @@ if (isset($_GET['action']) && $_GET['action'] === 'notification') {
         }
         
     }
+
+
+    if (isset($_GET['action']) && $_GET['action'] === 'first') {
+        if (isset($_GET['id'])) {
+            try {
+                $connexion = new PDO('mysql:host=localhost:3310;dbname=pshare;charset=utf8','root','');
+                // Définir le mode d'erreur PDO à Exception
+                $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch(PDOException $e) {
+                die("Erreur de connexion à la base de données : " . $e->getMessage());
+            }
+            
+            $monid = $_GET['id'];
+            
+            $requete = " SELECT * FROM `users` WHERE num_users=$monid
+            ";
+            $stmt = $connexion->prepare($requete);
+            $stmt->execute();
+            while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $utilisateurs[] = $ligne;
+            }
+        }
+        
+        if (!empty($utilisateurs)) {
+            echo json_encode($utilisateurs); 
+        }else{
+            echo json_encode(['nothing' => true]);
+        }
+        
+    }
    
 
 ?>

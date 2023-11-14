@@ -86,10 +86,32 @@ data.forEach(element => {
       localStorage.setItem('myIntervalID', newIntervalID.toString());
           
         });
-
+        
 
 });
+  //message pou contacter first time
+  const urlParams = new URLSearchParams(window.location.search);
+        const param = urlParams.get("iduser");
+        if (param) {
 
+          var ele
+
+      fetch("messageforuserid.php?action=first&id="+param)
+      .then(response => response.json())
+      .then(data => {
+                    console.log(data[0]);
+                    
+      const Profile = document.getElementById("chatp");
+      const image = Profile.querySelector("img"); 
+      image.setAttribute('src', '../Pshare/profil/'+data[0].img); 
+    
+      const content = Profile.querySelector('p'); 
+      content.textContent = data[0].nom_complet;
+      
+       })
+  
+          
+        }
 })
 .catch(error => {
   console.error('Une erreur s\'est produite :', error);
