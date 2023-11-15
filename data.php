@@ -28,7 +28,12 @@ $stmt->execute();
 while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $utilisateurs[] = $ligne;
 }
-echo json_encode($utilisateurs); 
+if (!empty($utilisateurs)) {
+    echo json_encode($utilisateurs); 
+}else{
+    echo json_encode(['nothing' => true]);
+}
+
 
 
 ?>
