@@ -169,29 +169,35 @@ text-align: center;
     border-radius: 16px;
 
 }
+
 .messagebox {
     display: flex;
     width: 100%;
     margin-bottom: 2%;
-    
+    flex-direction: column-reverse;
+
 }
 .messagebox img{
     width: 64px;
     height: 64px;
+    border-radius: 50%;
+}
+.messagebox div{
+    margin-left:60px;
 }
 .messagebox div p{
-    margin-left: 3%;
-    padding: 15%;
+   
+    width: 50%;
+    padding: 15px;
     background-color: #F2F3C1;
     border-radius: 20px;
+    border-bottom-left-radius: 0px;
     font-size: 12px;
     font-family: "Poppins";
 }
-.messagebox div {
-    min-width: 10%;
-}
 .messagebox div span{
-    margin-left: 6%;
+    margin-right: 5%;
+    /* margin-left: 6%; */
     font-size: 10px;
     color: #a0a0a0;
     font-family: "Poppins";

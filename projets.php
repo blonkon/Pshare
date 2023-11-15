@@ -6,7 +6,7 @@ $total=$con->Total_card();
 $actif=$con->Actif_card();
 $clos=$con->Close_card();
 $data=$con->Afficher_projet();
-
+// session_destroy();
 
 ?>
 <!DOCTYPE html>
@@ -17,8 +17,8 @@ $data=$con->Afficher_projet();
     <link rel="stylesheet" href="css/projets.css">
     <title>Document</title>
    <?php  
-       $p_actif=($actif/$total)*100;
-       $p_clos=($clos/$total)*100;
+        $p_actif=($actif/$total)*100;
+        $p_clos=($clos/$total)*100;
       
    echo "
    <style type='text/css'>
@@ -192,7 +192,9 @@ $data=$con->Afficher_projet();
                 <section class="contacter"> <button>
                 <?php 
                 if(!isset($_SESSION['user'])){ echo'<a href="login.php">Contactez-Nous</a>';}
-                 else{echo'<a href="traitementc.php">Contactez-Nous</a>'; }
+                 else{
+                    $id = $lidata['num_users'];
+                    echo"<a href='profil.php?iduser=$id'>Contactez-Nous</a>"; }
                
                 ?>
                 </button></section>

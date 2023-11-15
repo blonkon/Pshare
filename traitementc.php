@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+    <script>
+        
+    </script>
     <h1>Bienvenue ,ce fut un succes</h1>
 </body>
 </html>
