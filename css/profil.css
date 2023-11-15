@@ -81,8 +81,7 @@ nav ul li a:hover{
 /* Sidebar */
 .left{
     width: 15%;
-    padding-top: 26px;
-    
+    padding-top: 13px;
     background-color: #06708e;
     border-radius: 0px 14px 0px 0px;
 
@@ -91,7 +90,8 @@ nav ul li a:hover{
     display: flex;
     text-align: center;
     justify-content: start;
-    padding-bottom: 26px ;
+    padding-top: 13px;
+    padding-bottom: 13px;
     padding-left: 15%;
     text-align: center;
 }
@@ -185,6 +185,7 @@ text-align: center;
 .messagebox div{
     margin-left:60px;
 }
+
 .messagebox div p{
    
     width: 50%;

@@ -196,7 +196,7 @@ $data=$con->Afficher_projet();
                 if(!isset($_SESSION['user'])){ echo'<a href="login.php">Contactez-Nous</a>';}
                  else{
                     $id = $lidata['num_users'];
-                    echo"<a href='profil.php?iduser=$id'>Contactez-Nous</a>"; }
+                    echo"<a href='profil.php?el=$id'>Contactez-Nous</a>"; }
                
                 ?>
                 </button></section>

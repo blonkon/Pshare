@@ -33,10 +33,9 @@ if (!isset( $_SESSION["num_users"])) {
     <div class="partie">
         <div class="left">
             <ul >
-                <li>
-                    <img src="./image/chat.svg">
-                    <a href="#"> Messages</a>
-                   
+                <li style="background-color: #fff ;">
+                    <img src="./image/chat2.svg">
+                    <a href="#" style="color: #06708e;"> Messages</a>
                 </li>
                 <li>
                     <img src="./image/project.svg">
@@ -45,6 +44,11 @@ if (!isset( $_SESSION["num_users"])) {
                 <li>
                     <img src="./image/profile.svg">
                     <a href="#">Profil</a>
+                    
+                </li>
+                <li>
+                    <img src="./image/profile.svg">
+                    <a href="logout.php">Deconnexion</a>
                     
                 </li>
             </ul>
