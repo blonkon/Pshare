@@ -2,9 +2,9 @@
 session_start();
 require "config.php";
 $con=new Operation();
-$total=$con->Total_card($_SESSION['competence']);
-$actif=$con->Actif_card($_SESSION['competence']);
-$clos=$con->Close_card($_SESSION['competence']);
+$total=$con->Total_card();
+$actif=$con->Actif_card();
+$clos=$con->Close_card();
 $data=$con->Afficher_projet();
 
 
@@ -56,11 +56,16 @@ $data=$con->Afficher_projet();
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-                <li><a href="index.php">Accueil</a></li>
+                <?php 
+                if( isset($_SESSION['type']) && $_SESSION['type'] ==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
+                 elseif( isset($_SESSION['type']) && $_SESSION['type']==='commun'){echo'<li><a href="index_commun.php">Accueil</a></li>';}
+                 elseif(!isset($_SESSION['type'])){echo'<li><a href="index.php">Accueil</a></li>';}
+                 
+                ?>
                 <li><a href="membres.php">Membres</a></li>
                 <li><a href="projets.php">Projets</a></li>
                 <?php 
-                if(!isset($_SESSION['user'])){ echo'<a href="profil.php"><img src="image/Profile1.png"></a>';}
+                if(!isset($_SESSION['user'])){ echo'<a href="login.php"><img src="image/Profile1.png"></a>';}
                  else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
                 ?>
              </ul>
@@ -177,10 +182,6 @@ $data=$con->Afficher_projet();
                                   <p><h6><?= $lidata['nom_pt']?></h6></p>
                        </div>
                     </div>
-                    <div class="info">
-                        <p><h4>Domaine:</h4></p>
-                        <p><h6><?= $lidata['domaine'] ?></h6></p>
-                    </div>   
                     <div class="statut">
                         <p><h4>Statuts <?php 
                 if($lidata['statut']=='actif'){ echo'<img src="image/bouton-denregistrement.png">';}

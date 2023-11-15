@@ -4,6 +4,7 @@ require "config.php";
 $con=new Operation();
 $data=$con->Afficher_projet();
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,16 +24,11 @@ $data=$con->Afficher_projet();
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-                 <?php 
-                if( isset($_SESSION['type']) && $_SESSION['type'] ==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
-                 elseif( isset($_SESSION['type']) && $_SESSION['type']==='commun'){echo'<li><a href="index_commun.php">Accueil</a></li>';}
-                 elseif(!isset($_SESSION['type'])){echo'<li><a href="index.php">Accueil</a></li>';}
-                 
-                ?>
+                <li><a href="index.php">Accueil</a></li>
                 <li><a href="membres.php">Membres</a></li>
                 <li><a href="projets.php">Projets</a></li>
                 <?php 
-                if(!isset($_SESSION['user'])){ echo'<a href="login.php"><img src="image/Profile1.png"></a>';}
+                if(!isset($_SESSION['user'])){ echo'<a href="profil.php"><img src="image/Profile1.png"></a>';}
                  else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
                 ?>
 
@@ -63,10 +59,8 @@ $data=$con->Afficher_projet();
                                   <p><h6><?= $lidata['nom_complet']?></h6></p>
                                  <p><h4>Nom du Projet:</h4></p>
                                   <p><h6><?= $lidata['nom_pt']?></h6></p>
-                                  <p><h5>Competences necessaires:</h5></p>
-                                  <p><h6><?= $lidata['nom_comp']?></h6></p>
                        </div>
-                    </div>  
+                    </div>
                     <div class="statut">
                         <p><h4>Statuts <?php 
                 if($lidata['statut']=='actif'){ echo'<img src="image/bouton-denregistrement.png">';}

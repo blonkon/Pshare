@@ -2,7 +2,8 @@
 session_start();
 require "config.php";
 $con=new Operation();
-$data=$con->Afficher_projet();
+$data=$con->Afficher_projet_by_competence($_SESSION['num_users']);
+
 
 ?>
 <!DOCTYPE html>
@@ -23,18 +24,20 @@ $data=$con->Afficher_projet();
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-                 <?php 
-                if( isset($_SESSION['type']) && $_SESSION['type'] ==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
-                 elseif( isset($_SESSION['type']) && $_SESSION['type']==='commun'){echo'<li><a href="index_commun.php">Accueil</a></li>';}
-                 elseif(!isset($_SESSION['type'])){echo'<li><a href="index.php">Accueil</a></li>';}
+                <?php 
+                if( $_SESSION['type']==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
+                 elseif( $_SESSION['type']==='commun'){echo'<li><a href="index_commun.php">Accueil</a></li>';}
+                 else{echo'<li><a href="index.php">Accueil</a></li>';}
                  
                 ?>
                 <li><a href="membres.php">Membres</a></li>
                 <li><a href="projets.php">Projets</a></li>
                 <?php 
-                if(!isset($_SESSION['user'])){ echo'<a href="login.php"><img src="image/Profile1.png"></a>';}
+                if(!isset($_SESSION['user'])){ echo'<a href="profil.php"><img src="image/Profile1.png"></a>';}
                  else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
                 ?>
+
+
 
              </ul>
             
@@ -52,6 +55,9 @@ $data=$con->Afficher_projet();
   
         <div class="cards">
         <?php foreach($data as $lidata):?> 
+            <?php  $nom_pt=$lidata['nom_pt']; $nom_pros=$con->Afficher_projet_proprio($nom_pt);
+                   $id_projet=$con->Stocks_idprojet($nom_pt);  $competences=$con->Afficher_competences_requises($id_projet);
+            ?>
             <div class="card-single">
                 <div class="card-flex">
                     <div class="card-info">
@@ -60,13 +66,15 @@ $data=$con->Afficher_projet();
                        </div>
                        <div class="title">
                                  <p><h4>Propriétaire:</h4></p>
-                                  <p><h6><?= $lidata['nom_complet']?></h6></p>
+                                  <p><h6><?php foreach ($nom_pros as $nom_pro) { echo $nom_pro['nom_complet'];}?></h6></p>
                                  <p><h4>Nom du Projet:</h4></p>
                                   <p><h6><?= $lidata['nom_pt']?></h6></p>
-                                  <p><h5>Competences necessaires:</h5></p>
-                                  <p><h6><?= $lidata['nom_comp']?></h6></p>
+                                  <p><h4>Competences necessaires:</h4></p>
+                                  <p><h6><?php foreach ($competences as $competence) {
+                                    echo $competence['nom_comp'].' ';}   
+                                  ?></h6></p>
                        </div>
-                    </div>  
+                    </div>
                     <div class="statut">
                         <p><h4>Statuts <?php 
                 if($lidata['statut']=='actif'){ echo'<img src="image/bouton-denregistrement.png">';}

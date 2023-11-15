@@ -119,10 +119,18 @@ if(isset($_POST['send2'])){
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-                <li><a href="index.php">Accueil</a></li>
+                <?php 
+                if( isset($_SESSION['type']) && $_SESSION['type'] ==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
+                 elseif( isset($_SESSION['type']) && $_SESSION['type']==='commun'){echo'<li><a href="index_commun.php">Accueil</a></li>';}
+                 elseif(!isset($_SESSION['type'])){echo'<li><a href="index.php">Accueil</a></li>';}
+                 
+                ?>
                 <li><a href="membres.php">Membres</a></li>
                 <li><a href="projets.php">Projets</a></li>
-                <a href="profil.php"><img src="image/2.jpg" alt=""></a>
+                <?php 
+                if(!isset($_SESSION['user'])){ echo'<a href="login.php"><img src="image/Profile1.png"></a>';}
+                 else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
+                ?>
              </ul>
             
         </nav>      

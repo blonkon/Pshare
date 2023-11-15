@@ -1,10 +1,13 @@
+<?php
+session_start();
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./profil.css">
+    <link rel="stylesheet" href="css/profil.css">
     <title>Messages</title>
 </head>
 <body>
@@ -12,10 +15,18 @@
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="membres.html">Membres</a></li>
-                <li><a href="projets.html">Projets</a></li>
-                <a href="profil.html"><img src="image/2.jpg" alt=""></a>
+                <?php 
+                if(isset($_SESSION['type']) && $_SESSION['type'] ==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
+                 elseif( isset($_SESSION['type']) && $_SESSION['type']==='commun'){echo'<li><a href="index_commun.php">Accueil</a></li>';}
+                 elseif(!isset($_SESSION['type'])){echo'<li><a href="index.php">Accueil</a></li>';}
+                 
+                ?>
+                <li><a href="membres.php">Membres</a></li>
+                <li><a href="projets.php">Projets</a></li>
+                <?php 
+                if(!isset($_SESSION['user'])){ echo'<a href="login.php"><img src="image/Profile1.png"></a>';}
+                 else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
+                ?>
              </ul>
             
         </nav>      
@@ -37,6 +48,11 @@
                     <a href="#">Profil</a>
                     
                 </li>
+                <li>
+                    <!-- <img src="./image/profile.svg"> -->
+                    <a href="deconnexion.php">Deconnexion</a>
+                    
+                </li>
             </ul>
         </div>
         <div class="right">
@@ -53,7 +69,7 @@
             </div>
         </div>
     </div>
-    <script src="./chat.js"></script>
+    <script src="js/chat.js"></script>
 </body>
 <footer>
     <div class="pied-page">

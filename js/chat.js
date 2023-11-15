@@ -41,7 +41,7 @@ data.forEach(element => {
 });
 
 function getmessageforid(id) {
-  fetch("messageforuserid.php?action=messagebox&user_id=" + id)
+  fetch("messageforuserid.php?action=messagebox&num_users=" + id)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);

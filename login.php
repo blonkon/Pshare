@@ -18,11 +18,16 @@ $con=new Operation();
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-                <li><a href="index.php">Accueil</a></li>
+                <?php 
+                if( isset($_SESSION['type']) && $_SESSION['type'] ==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
+                 elseif( isset($_SESSION['type']) && $_SESSION['type']==='commun'){echo'<li><a href="index_commun.php">Accueil</a></li>';}
+                 elseif(!isset($_SESSION['type'])){echo'<li><a href="index.php">Accueil</a></li>';}
+                 
+                ?>
                 <li><a href="membres.php">Membres</a></li>
                 <li><a href="projets.php">Projets</a></li>
                 <?php 
-                if(!isset($_SESSION['user'])){ echo'<a href="profil.php"><img src="image/Profile1.png"></a>';}
+                if(!isset($_SESSION['user'])){ echo'<a href="login.php"><img src="image/Profile1.png"></a>';}
                  else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
                 ?>
              </ul>
@@ -67,15 +72,23 @@ $con=new Operation();
                    $vmdp=$lidata['mdp_user'];
                    $iduser=$lidata['num_users'];
                    $image=$lidata['img'];
-                   $competence=$lidata['competence'];
+                   $type=$lidata['type'];
                    $nom_complet=$lidata['nom_complet'];
                    $_SESSION["num_users"]=$iduser;
                    $_SESSION["competence"]=$competence;
                    $_SESSION["user"]=$nom_complet;
                    $_SESSION["profil"]=$image;
-                   if($vemail===$email && $vmdp===$mdp)
+                   $_SESSION["type"]=$type;
+                
+                   if($vemail===$email && $vmdp===$mdp )
                       {
-                          header("location:index.php");
+                        if($type==='individuel'){
+                            header("location:index_indi.php");
+                        }
+                        elseif ($type==='commun') {
+                            header("location:index_commun.php");
+                        }
+                              
                       }
                    
                 }

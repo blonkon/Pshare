@@ -498,27 +498,23 @@ footer{
          font-size: 0.7rem;
          text-align: center;
      }
-     .statut1 button {
-         margin-top: 3%;
-         background-color: #ffffff;
-         margin-left: 33%;
-         padding: 6px;
-         border-radius: 19px;
-         margin-bottom: 2%;
-     } 
+    
      .info1 {
          display: flex;
          flex-direction: row;
-         margin-left: 34%;
-         margin-top: 3%;
+         margin-left: 7%;
+         margin-top: 5%;
      
      }
-     .info1 img{
-         margin-left:10%;
-         width: 16px;
-         height: 16px;
-     
-     }
+    
+     .statut1 button {
+        margin-top: 3%;
+        background-color: #06708e;
+        margin-left: 33%;
+        padding: 6px;
+        border-radius: 19px;
+        margin-bottom: 2%;
+    } 
      .statut1 button h3{
      color: #06708e;
      }

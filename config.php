@@ -137,25 +137,78 @@ class Operation
          }
        }
 
-       public function Afficher_projet_competence($competence)
+       public function Afficher_projet_by_competence($id_user)
        {
          if($this->con)
          {
-            $con=$this->con->prepare("SELECT * FROM projet WHERE projet.num_users=users.num_users AND projet.competence_necessaire=?");
-            $data=$con->execute(array($competence));
+            $con=$this->con->prepare("SELECT DISTINCT users.num_users,users.nom_complet,competence.nom_comp,projet.nom_pt,projet.statut 
+            FROM users,competence,avoir_competence,projet,competences_requises  WHERE  avoir_competence.num_users=users.num_users 
+            AND avoir_competence.id_comp=competence.id_comp AND competence.id_comp=competences_requises.id_comp 
+            AND competences_requises.idd_pt=projet.idd_pt AND users.num_users=?");
+            $data=$con->execute(array($id_user));
             $data=$con->fetchAll(PDO::FETCH_ASSOC);
             return $data;
             $con->closeCursor();
          }
        }
 
-
-       public function Total_card($competence)
+       public function Afficher_projet_proprio($nom_projet)
        {
          if($this->con)
          {
-            $con=$this->con->prepare("SELECT COUNT(projet.statut) AS total FROM users,projet WHERE projet.competence_necessaire=users.competence AND users.competence=?");
-            $data=$con->execute(array($competence));
+            $con=$this->con->prepare("SELECT projet.nom_pt,users.nom_complet FROM users,projet 
+            WHERE projet.num_users=users.num_users AND projet.nom_pt=?");
+            $data=$con->execute(array($nom_projet));
+            $data=$con->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+            $con->closeCursor();
+         }
+       }
+      
+       public function Stocks_idprojet($nom)
+       {
+         if($this->con)
+         {
+            $con=$this->con->prepare("SELECT idd_pt FROM projet WHERE nom_pt=? ");
+            $data=$con->execute(array($nom));
+            $data=$con->fetchAll(PDO::FETCH_ASSOC);
+            if(count($data)>0)
+             {
+               foreach($data as $lidata)
+               {
+                  $id_projet=$lidata['idd_pt'];
+  
+               }    
+
+             }
+             return $id_projet;
+             $con->closeCursor();
+           
+         }
+       
+       }
+
+       public function Afficher_competences_requises($id_projet)
+       {
+         if($this->con)
+         {
+            $con=$this->con->prepare("SELECT competence.nom_comp FROM competence,competences_requises,projet 
+            WHERE competence.id_comp=competences_requises.id_comp 
+            AND projet.idd_pt=competences_requises.idd_pt AND projet.idd_pt=?");
+            $data=$con->execute(array($id_projet));
+            $data=$con->fetchAll(PDO::FETCH_ASSOC);   
+             return $data;
+             $con->closeCursor();
+         }
+       }
+    
+
+       public function Total_card()
+       {
+         if($this->con)
+         {
+            $con=$this->con->prepare("SELECT COUNT(projet.statut) AS total FROM projet ");
+            $data=$con->execute(array());
             $data=$con->fetchAll(PDO::FETCH_ASSOC);
             $con->closeCursor();
             if(count($data)>0)
@@ -172,12 +225,12 @@ class Operation
          }
        }
 
-       public function Actif_card($competence)
+       public function Actif_card()
        {
          if($this->con)
          {
-            $con=$this->con->prepare("SELECT COUNT(projet.statut) AS actif FROM users,projet WHERE projet.competence_necessaire=users.competence AND users.competence=? AND projet.statut='actif'");
-            $data=$con->execute(array($competence));
+            $con=$this->con->prepare("SELECT COUNT(projet.statut) AS actif FROM projet WHERE projet.statut='actif'");
+            $data=$con->execute(array());
             $data=$con->fetchAll(PDO::FETCH_ASSOC);
             $con->closeCursor();
             if(count($data)>0)
@@ -194,12 +247,12 @@ class Operation
          }
        }
 
-       public function Close_card($competence)
+       public function Close_card()
        {
          if($this->con)
          {
-            $con=$this->con->prepare("SELECT COUNT(projet.statut) AS clos FROM users,projet WHERE projet.competence_necessaire=users.competence AND users.competence=? AND projet.statut='clos'");
-            $data=$con->execute(array($competence));
+            $con=$this->con->prepare("SELECT COUNT(projet.statut) AS clos FROM projet WHERE projet.statut='clos'");
+            $data=$con->execute(array());
             $data=$con->fetchAll(PDO::FETCH_ASSOC);
             $con->closeCursor();
             if(count($data)>0)
