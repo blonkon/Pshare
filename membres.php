@@ -5,7 +5,7 @@ $con=new Operation();
 $data=$con->Afficher_compte();
 foreach($data as $lidata){
     $nom=$lidata['nom_complet'];
-    $competence=$lidata['competence'];
+    // $competence=$lidata['competence'];
    
 }
 
@@ -52,7 +52,7 @@ foreach($data as $lidata){
                             <?php echo'<img src="profil/'.$lidata['img'].'" class="proad">'; ?>
                            </div>
                            <div class="title1"><p><h4><?= $lidata['nom_complet'] ?></h4></p>
-                                      <p><h6><?=$lidata['competence'] ?></h6></p>
+                                      
                            </div>
                         </div><br><br>
                         <div class="info1">

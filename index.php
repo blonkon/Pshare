@@ -6,7 +6,7 @@ $data=$con->Afficher_projet();
 foreach($data as $lidata){
     $nom=$lidata['nom_pt'];
     $statut=$lidata['statut'];
-    $domaine=$lidata['domaine'];
+    // $domaine=$lidata['domaine'];
     $description=$lidata['description'];
 }
 
@@ -68,7 +68,7 @@ foreach($data as $lidata){
                     </div>
                     <div class="info">
                         <p><h4>Domaine:</h4></p>
-                        <p><h6><?= $lidata['domaine'] ?></h6></p>
+                        <!-- <p><h6><?= $lidata['domaine'] ?></h6></p> -->
                     </div>   
                     <div class="statut">
                         <p><h4>Statuts <?php 

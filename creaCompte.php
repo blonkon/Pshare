@@ -2,13 +2,12 @@
 session_start();
 include "config.php";
 if(isset($_POST['send1'])){
-    if(isset($_POST['nom']) AND isset($_POST['email']) AND isset($_POST['mdp']) AND isset($_POST['comp']) AND isset($_POST['classe']) AND isset($_FILES['img1']) AND isset($_FILES['fichier'])){
+    if(isset($_POST['nom']) AND isset($_POST['email']) AND isset($_POST['mdp']) AND isset($_POST['classe']) AND isset($_FILES['img1']) AND isset($_FILES['fichier'])){
        
         // Recuperation des infos postés
         $nom=$_POST['nom'];
         $email=$_POST['email'];
         $mdp=$_POST['mdp'];
-        $competences=$_POST['comp'];
         $level=$_POST['classe'];
         // Infos cv 
         $cv_name=$_FILES['fichier']['name'];
@@ -52,7 +51,8 @@ if(isset($_POST['send1'])){
         
         // Appel de la fonction d ajout
         $con=new Operation();
-        $ajout=$con->Enregistrement_user($nom,$email,$mdp,$competences,$level,$img_name,$cv_name);
+        $type="individuel";
+        $ajout=$con->Enregistrement_user($type,$nom,$email,$mdp,$level,$img_name,$cv_name);
         echo"Utilisateur ajouté avec succes!!";
 
     
@@ -68,8 +68,6 @@ if(isset($_POST['send2'])){
        $nom_e=$_POST['nom2'];
        $email_e=$_POST['email2'];
        $mdp_e=$_POST['mdp2'];
-
-       $competences_e='';
        $level_e='';
        $cv_name_e='';
        // Info image
@@ -95,7 +93,8 @@ if(isset($_POST['send2'])){
        
        // Appel de la fonction d ajout
        $con=new Operation();
-       $ajout_e=$con->Enregistrement_user($nom_e,$email_e,$mdp_e,$competences_e,$level_e,$img_name_e,$cv_name_e);
+       $type="commun";
+       $ajout_e=$con->Enregistrement_user($type,$nom_e,$email_e,$mdp_e,$level_e,$img_name_e,$cv_name_e);
        echo"Entreprise/Etablissement ajouté avec succes!!";
 
        
@@ -119,10 +118,18 @@ if(isset($_POST['send2'])){
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-                <li><a href="index.php">Accueil</a></li>
+                <?php 
+                if( isset($_SESSION['type']) && $_SESSION['type'] ==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
+                 elseif( isset($_SESSION['type']) && $_SESSION['type']==='commun'){echo'<li><a href="index_commun.php">Accueil</a></li>';}
+                 elseif(!isset($_SESSION['type'])){echo'<li><a href="index.php">Accueil</a></li>';}
+                 
+                ?>
                 <li><a href="membres.php">Membres</a></li>
                 <li><a href="projets.php">Projets</a></li>
-                <a href="profil.php"><img src="image/2.jpg" alt=""></a>
+                <?php 
+                if(!isset($_SESSION['user'])){ echo'<a href="login.php"><img src="image/Profile1.png"></a>';}
+                 else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
+                ?>
              </ul>
             
         </nav>      
@@ -138,7 +145,6 @@ if(isset($_POST['send2'])){
                            <input type="text" name="nom" placeholder="Entrer le nom complet" required><br>
                            <input type="text" name="email" placeholder="Adresse@gmail.com" required><br>
                            <input type="password" name="mdp" placeholder="Password" required><br>
-                           <input type="text" name="comp" placeholder="Les langages maitrisés" required><br><br>
                            <h5><label >Selectionner le niveau d'etude:</label>
                            <select name="classe" form="form_2">
                               <option value="Licence">Licence</option>
