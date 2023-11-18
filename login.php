@@ -45,9 +45,6 @@ $con=new Operation();
             <input type="password" name="pass" placeholder="Password" required>
             <br><br><br><br>
             <input type="submit" name="sub" value="Login" class="button"><br><br>
-            <a href="change.php" class="button1" >Modifier</a><br><br>
-            <p>Creer un compte <a href="creaCompte.php">Cliquez-ici</a> <br> Mot de passe oublié  ?<a href="passreco.php">Cliquez-ici</a></a></p>
-
         </form>
         <p><br></p>
         

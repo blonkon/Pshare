@@ -6,7 +6,7 @@ $total=$con->Total_card();
 $actif=$con->Actif_card();
 $clos=$con->Close_card();
 $data=$con->Afficher_projet();
-// session_destroy();
+
 
 ?>
 <!DOCTYPE html>
@@ -56,6 +56,7 @@ $data=$con->Afficher_projet();
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
+                 
                 <?php 
                 if( isset($_SESSION['type']) && $_SESSION['type'] ==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
                  elseif( isset($_SESSION['type']) && $_SESSION['type']==='commun'){echo'<li><a href="index_commun.php">Accueil</a></li>';}
@@ -71,6 +72,15 @@ $data=$con->Afficher_projet();
              </ul>
             
         </nav>      
+        
+    </div>
+    
+    <div  class="recherche">
+                  <form action="" method="post">
+                    <input type="search" name="nom"class="r" placeholder="Recherche suivant les noms des proprietaires ">
+                    <input type="submit" name="send"  class="s" value="Valider">
+                  </form>
+           
     </div>
 
     <section class="parties">
@@ -166,9 +176,77 @@ $data=$con->Afficher_projet();
                         </div>
             </div>
         </div>
+
+                  
+              <!-- Debut de la recherche -->
+              <?php
+              if(isset($_POST['send']))
+              {
+                 if(isset($_POST['nom']) && !empty($_POST['nom']))
+                {
+                  
+                 $donnee=htmlspecialchars($_POST['nom']);
+                 $data=$con->Recherche_by_name($donnee);
+                 echo'<div class="cards">';
+                 if(count($data)>0)
+                 {
+                  foreach($data as $lidata) {    
+                    $nom_pt=$lidata['nom_pt']; $nom_pros=$con->Afficher_projet_proprio($nom_pt);
+                     $id_projet=$con->Stocks_idprojet($nom_pt);  $competences=$con->Afficher_competences_requises($id_projet);  
+                  echo   '<div class="card-single">
+                          <div class="card-flex">
+                              <div class="card-info">
+                                 <div class="card-head">';
+                         echo'<img src="image/dossier.png" class="proad">';                
+                           echo'</div>
+                                 <div class="title">
+                                 <p><h4>Propriétaire:</h4></p>
+                                 <p><h6>'.$lidata['nom_complet'].'</h6></p>
+                                 <p><h4>Nom du Projet:</h4></p>
+                                 <p><h6>'.$lidata['nom_pt'].'</h6></p>
+                                 <p><h4>Competences necessaires:</h4></p>
+                                 <p><h6>';
+                                 foreach ($competences as $competence) {
+                                     echo $competence['nom_comp'].' ';}   
+                                  echo'</h6></p>
+                                   </div>';
+                                   echo'</div>
+                                   <div class="statut">
+                                       <p><h4>Statuts';
+                                    if($lidata['statut']=='actif'){ echo'<img src="image/bouton-denregistrement.png">';}
+                                else{echo'<img src="image/bouton-denregistrement (1).png">';}
+                               echo' : '.$lidata['statut'].'</h4></p>
+                                   </div>
+                               </div>
+                               <section class="contacter"> <button>';
+                              
+                               if(!isset($_SESSION['user'])){ echo'<a href="login.php">Contactez-Nous</a>';}
+                                else{
+                                   $id = $lidata['num_users'];
+                                   echo"<a href='profil.php?iduser=$id'>Contactez-Nous</a>"; }
+                              echo'
+                               </button></section>
+                           </div> 
+                       </div>
+                       </div>';
+                   }
+           echo '</div>';
+                 
+                   
+                } 
+            
+              }
+         }
+
+
+              ?>
+              <!-- Fin de la recherche -->
             <div class="slider">
             <div class="cards">
         <?php foreach($data as $lidata):?> 
+            <?php  $nom_pt=$lidata['nom_pt']; $nom_pros=$con->Afficher_projet_proprio($nom_pt);
+                   $id_projet=$con->Stocks_idprojet($nom_pt);  $competences=$con->Afficher_competences_requises($id_projet);
+            ?>
             <div class="card-single">
                 <div class="card-flex">
                     <div class="card-info">
@@ -178,8 +256,12 @@ $data=$con->Afficher_projet();
                        <div class="title">
                                  <p><h4>Propriétaire:</h4></p>
                                   <p><h6><?= $lidata['nom_complet']?></h6></p>
-                                 <p><h4>Nom du Projet:</h4></p>
+                                  <p><h4>Nom du Projet:</h4></p>
                                   <p><h6><?= $lidata['nom_pt']?></h6></p>
+                                  <p><h4>Competences necessaires:</h4></p>
+                                  <p><h6><?php foreach ($competences as $competence) {
+                                    echo $competence['nom_comp'].' ';}   
+                                  ?></h6></p>
                        </div>
                     </div>
                     <div class="statut">
@@ -204,6 +286,7 @@ $data=$con->Afficher_projet();
         </div>
 
     </section>
+
 
 
     

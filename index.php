@@ -52,6 +52,9 @@ $data=$con->Afficher_projet();
   
         <div class="cards">
         <?php foreach($data as $lidata):?> 
+            <?php  $nom_pt=$lidata['nom_pt']; $nom_pros=$con->Afficher_projet_proprio($nom_pt);
+                   $id_projet=$con->Stocks_idprojet($nom_pt);  $competences=$con->Afficher_competences_requises($id_projet);
+            ?>
             <div class="card-single">
                 <div class="card-flex">
                     <div class="card-info">
@@ -63,10 +66,12 @@ $data=$con->Afficher_projet();
                                   <p><h6><?= $lidata['nom_complet']?></h6></p>
                                  <p><h4>Nom du Projet:</h4></p>
                                   <p><h6><?= $lidata['nom_pt']?></h6></p>
-                                  <p><h5>Competences necessaires:</h5></p>
-                                  <p><h6><?= $lidata['nom_comp']?></h6></p>
+                                  <p><h4>Competences necessaires:</h4></p>
+                                  <p><h6><?php foreach ($competences as $competence) {
+                                    echo $competence['nom_comp'].' ';}   
+                                  ?></h6></p>
                        </div>
-                    </div>  
+                    </div>
                     <div class="statut">
                         <p><h4>Statuts <?php 
                 if($lidata['statut']=='actif'){ echo'<img src="image/bouton-denregistrement.png">';}

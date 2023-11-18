@@ -41,11 +41,10 @@ $con=new Operation();
                            <label><h5>Le statut du projet</h5></label><br>
                            <input type="radio" name="statut" id ="statut" value="actif" required>Actif
                            <input type="radio" name="statut" id ="statut" value="clos" required>Clos <br><br>
-                           <input type="text" name="comp_n" class="input" placeholder="Entrer les languages necessaires" required><br><br>
                            <textarea name="desc"  cols="40" rows="10" placeholder="Un résumé de votre projet" required></textarea><br>
                            <label ><h5>Ajout le pdf du cahier de charge:</h5></label> <br>
                            <input type="file" class="input" name="cahier"><br>
-                           <center><button type="submit" name="send1" class="button">Add</button></center>                       
+                           <center><button type="submit" name="send1" class="button">Ajouter</button></center>                       
                        </form>
         <p><br></p>
         
@@ -54,15 +53,13 @@ $con=new Operation();
 
        if((isset($_POST['send1']))){
         //  echo"Bien jusque là!!";
-        if( isset($_POST['nom']) && isset($_POST['statut']) && isset($_POST['comp_n']) && isset($_POST['desc']) && isset($_FILES['cahier']))
+        if( isset($_POST['nom']) && isset($_POST['statut']) && isset($_POST['desc']) && isset($_FILES['cahier']))
         {
          
            
             $nom=htmlspecialchars($_POST['nom']);
             $statut=htmlspecialchars($_POST['statut']);
-            $comp_necessaire=$_POST['comp_n'];
             $description=htmlspecialchars($_POST['desc']);
-            $domaine='Informatique';
          // Infos cahier de charge
             $cahier_name=$_FILES['cahier']['name'];
             $cahier_extension=strrchr($cahier_name, ".");
@@ -82,7 +79,7 @@ $con=new Operation();
         //  Fin cahier de charges  
         $id_user=$_SESSION['num_users'];
        try {
-        $con->Ajout_projet($id_user,$nom,$domaine,$statut,$comp_necessaire,$description,$cahier_name);
+        $con->Ajout_projet($id_user,$nom,$statut,$description,$cahier_name);
         echo"Projet ajouté avec succès!!!";
        } catch (\Throwable $th) {
         echo"Message non envoyé!!!";
@@ -96,7 +93,62 @@ $con=new Operation();
 
 
     </div>
+    <h4>Veuillez toujours renseigner le premier formulaire d'abord!!</h4>
+    <div class="login">
+        <p><br></p>
+           <summary>Les competences requises</summary>
+        <form method="post">
+            <br><br><br>
+            <label name="nom_pro" class="input">Nom du projet</label><br><br>
+            <input type="text" name="nom_pro" class="input" placeholder="le nom du projet que vous venez d'ajouter" required><br>
+             <h5><label >Selectionner le niveau d'etude:</label>
+                <select name="comp" form="form_2"  multiple>
+                   <option value="PHP">PHP</option>
+                   <option value="Python">Python</option>
+                   <option value="Java">Java</option>
+                   <option value="C++">C++</option>
+                   <option value="Ajax">Ajax</option>
+                   <option value="Angular">Angular</option>
+                   <option value="Node Js">Node Js</option>
+                </select></h5><br><br>
+                <center><button type="submit" class="button" name="send2">Ajouter</button></center>  
 
+        </form>
+        <p><br></p>
+        
+        <?php
+           if((isset($_POST['send2']))){
+            
+        if( isset($_POST['nom_pro']) && isset($_POST['comp']))
+        {
+        //     header("location:index_commun.php");
+           
+            $nom_projet=$_POST['nom_pro'];
+            // $choix=$_POST['comp'];
+            // $id_projet=$con->Stocks_idprojet($nom_projet);
+            echo $nom_projet;
+            
+            //   foreach($choix as $elmt)
+            //     {
+            //        $id_competence=$con->Stocks_competenceid($elmt);
+            //        $insert=$con->Competences_requises($id_projet,$id_competence);
+            //        echo"competence ajoutées!!!";
+                   
+            //       }
+           
+        //   }
+
+        }
+
+
+
+           }
+
+
+     ?>
+
+
+    </div>
 
 
    

@@ -39,7 +39,6 @@ data.forEach(element => {
       clearInterval(parseInt(previousIntervalID, 10));
     }
     const newIntervalID = setInterval(function() {
-      console.log("num user " + element.num_users);
       fetch("messageforuserid.php?action=notification")
       .then(response => response.json())
       .then(data => {
@@ -55,7 +54,7 @@ data.forEach(element => {
         
       });
       
-    }, 1000);
+    }, 2000);
     localStorage.setItem('myIntervalID11', newIntervalID.toString());
       
     Div.addEventListener('click', function() {
@@ -94,13 +93,11 @@ data.forEach(element => {
         const param = urlParams.get("iduser");
         if (param) {
 
-          var ele
-
+          var ele;
       fetch("messageforuserid.php?action=first&id="+param)
       .then(response => response.json())
       .then(data => {
                     console.log(data[0]);
-                    
       const Profile = document.getElementById("chatp");
       const image = Profile.querySelector("img"); 
       image.setAttribute('src', '../Pshare/profil/'+data[0].img); 
@@ -132,6 +129,7 @@ function getmessageforid(id,img) {
                   .then(dataa => {
                       monid = dataa;
                       data.forEach(element => {
+                        console.log(element);
                       const Div = document.createElement('div');
                       const Div2 = document.createElement('div');
                       const Paragraph = document.createElement('p');
@@ -149,7 +147,7 @@ function getmessageforid(id,img) {
                       Paragraph.id=element.num_mes;
                       Div2.appendChild(Paragraph);
                       Div2.appendChild(span);
-                      if (element.deleted===0) {
+                      if (element.deleted==0) {
                         spandel.style.cursor = "pointer";
                         Div2.appendChild(spandel);
                         
@@ -238,7 +236,7 @@ function sending(id,content,img) {
     id: id,
     content: content
   };
- 
+
   const options = {
     method: 'POST',
     headers: {

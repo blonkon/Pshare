@@ -12,12 +12,12 @@ class Operation
         // echo "La connexion a echouée";
     }
     }
-    public function Enregistrement_user(string $nom,string $email,string $mdp,string $competence,string $niveau,string $img,string $cv)
+    public function Enregistrement_user(string $type,string $nom,string $email,string $mdp,string $niveau,string $img,string $cv)
        {
          if($this->con)
          {
             $con=$this->con->prepare("INSERT INTO users VALUES('',?,?,?,?,?,?,?)");
-            $con->execute(array($nom,$email,$mdp,$competence,$niveau,$img,$cv));
+            $con->execute(array($type,$nom,$email,$mdp,$niveau,$img,$cv));
             $con->closeCursor();
          }
        }
@@ -68,15 +68,27 @@ class Operation
          }
        }
 
-       public function Ajout_projet(int $id_user,string $nom_projet,string $domaine,string $statut,string $competence_n,string $description,string $cahier)
+       public function Competences_requises(int $id_projet,int $id_competence)
        {
          if($this->con)
          {
-            $con=$this->con->prepare("INSERT INTO projet VALUES('',?,?,?,?,?,?,?)");
-            $con->execute(array($id_user,$nom_projet,$domaine,$statut,$competence_n,$description,$cahier));
+            $con=$this->con->prepare("INSERT INTO competences_requises VALUES(?,?)");
+            $con->execute(array($id_projet,$id_competence));
             $con->closeCursor();
          }
        }
+
+
+       public function Ajout_projet(int $id_user,string $nom_projet,string $statut,string $description,string $cahier)
+       {
+         if($this->con)
+         {
+            $con=$this->con->prepare("INSERT INTO projet VALUES('',?,?,?,?,?)");
+            $con->execute(array($id_user,$nom_projet,$statut,$description,$cahier));
+            $con->closeCursor();
+         }
+       }
+
 
        
        public function Suppression_projet(string $nom_projet,string $cahier)
@@ -147,6 +159,7 @@ class Operation
             AND competences_requises.idd_pt=projet.idd_pt AND users.num_users=?");
             $data=$con->execute(array($id_user));
             $data=$con->fetchAll(PDO::FETCH_ASSOC);
+            //si le data est emtpy
             return $data;
             $con->closeCursor();
          }
@@ -159,10 +172,12 @@ class Operation
             $con=$this->con->prepare("SELECT projet.nom_pt,users.nom_complet FROM users,projet 
             WHERE projet.num_users=users.num_users AND projet.nom_pt=?");
             $data=$con->execute(array($nom_projet));
-            $data=$con->fetchAll(PDO::FETCH_ASSOC);
+            $data=$con->fetchAll(PDO::FETCH_ASSOC); 
             return $data;
             $con->closeCursor();
-         }
+            }
+            
+             
        }
       
        public function Stocks_idprojet($nom)
@@ -182,6 +197,29 @@ class Operation
 
              }
              return $id_projet;
+             $con->closeCursor();
+           
+         }
+       
+       }
+
+       public function Stocks_competenceid($nom)
+       {
+         if($this->con)
+         {
+            $con=$this->con->prepare("SELECT id_comp FROM competence WHERE nom_comp=? ");
+            $data=$con->execute(array($nom));
+            $data=$con->fetchAll(PDO::FETCH_ASSOC);
+            if(count($data)>0)
+             {
+               foreach($data as $lidata)
+               {
+                  $id_competence=$lidata['id_comp'];
+  
+               }    
+
+             }
+             return $id_competence;
              $con->closeCursor();
            
          }
@@ -266,6 +304,18 @@ class Operation
              }
              return $clos;
              $con->closeCursor();
+         }
+       }
+
+       public function Recherche_by_name($donnee)
+       {
+         if($this->con)
+         {
+          $con=$this->con->prepare("SELECT * FROM projet,users WHERE projet.num_users=users.num_users AND users.nom_complet LIKE ?");
+          $data=$con->execute(array($donnee));
+          $data=$con->fetchAll(PDO::FETCH_ASSOC);
+          return $data;
+          $con->closeCursor();
          }
        }
 

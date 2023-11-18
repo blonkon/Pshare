@@ -1,24 +1,17 @@
 <?php
 session_start();
 
-<<<<<<< HEAD
-=======
 if (!isset( $_SESSION["num_users"])) {
     header("Location: index.php");
     exit(); 
 }
->>>>>>> 3f28d7c2e375d105899c718288e444ba2596ed23
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="css/profil.css">
-=======
     <link rel="stylesheet" href="./css/profil.css">
->>>>>>> 3f28d7c2e375d105899c718288e444ba2596ed23
     <title>Messages</title>
 </head>
 <body>
@@ -26,9 +19,8 @@ if (!isset( $_SESSION["num_users"])) {
         <nav>
             <ul>   
                 <div class="logo"><img src="image/pshare.png" alt=""></div>
-<<<<<<< HEAD
                 <?php 
-                if(isset($_SESSION['type']) && $_SESSION['type'] ==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
+                if( isset($_SESSION['type']) && $_SESSION['type'] ==='individuel' ){ echo'<li><a href="index_indi.php">Accueil</a></li>';}
                  elseif( isset($_SESSION['type']) && $_SESSION['type']==='commun'){echo'<li><a href="index_commun.php">Accueil</a></li>';}
                  elseif(!isset($_SESSION['type'])){echo'<li><a href="index.php">Accueil</a></li>';}
                  
@@ -36,16 +28,10 @@ if (!isset( $_SESSION["num_users"])) {
                 <li><a href="membres.php">Membres</a></li>
                 <li><a href="projets.php">Projets</a></li>
                 <?php 
-                if(!isset($_SESSION['user'])){ echo'<a href="login.php"><img src="image/Profile1.png"></a>';}
-=======
-                <li><a href="index.php">Accueil</a></li>
-                <li><a href="membres.php">Membres</a></li>
-                <li><a href="projets.php">Projets</a></li>
-                <?php 
                 if(!isset($_SESSION['user'])){ echo'<a href="profil.php"><img src="image/Profile1.png"></a>';}
->>>>>>> 3f28d7c2e375d105899c718288e444ba2596ed23
                  else{echo'<a href="profil.php"><img src="profil/'.$_SESSION['profil'].'"></a>';}
                 ?>
+                
              </ul>
             
         </nav>      
@@ -60,13 +46,14 @@ if (!isset( $_SESSION["num_users"])) {
                 </li>
                 <li>
                     <img src="./image/project.svg">
-                    <a href="#">Projets</a>
+                    <a href="ajoutprojet.php">Projets</a>
                 </li>
                 <li>
                     <img src="./image/profile.svg">
                     <a href="#">Profil</a>
                     
                 </li>
+              
                 <li>
                     <!-- <img src="./image/profile.svg"> -->
                     <a href="deconnexion.php">Deconnexion</a>
@@ -88,11 +75,7 @@ if (!isset( $_SESSION["num_users"])) {
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-    <script src="js/chat.js"></script>
-=======
     <script src="./js/chat.js"></script>
->>>>>>> 3f28d7c2e375d105899c718288e444ba2596ed23
 </body>
 <footer>
     <div class="pied-page">

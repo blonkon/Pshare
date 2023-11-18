@@ -14,3 +14,6 @@ Réquête pour connaitre le nombre total de projet
 ----------------------------------------------------------------------
 | SELECT COUNT(projet.statut) AS total FROM projet                            |
 |____________________________________________________________________|
+
+
+'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;

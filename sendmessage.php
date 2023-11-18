@@ -23,11 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
         
             $monid =  $_SESSION["num_users"];
-            $requete = "INSERT INTO `message` (`num_mes`, `sender`, `contenu`, `date`, `recever`) 
-                       VALUES (NULL, $monid, :content, NOW(), :receiver)";
+            $requete = "INSERT INTO `message` (`num_mes`, `sender`, `contenu`, `date`, `recever`,`deleted`) 
+                       VALUES (NULL, $monid, :content, NOW(), :recever,0)";
             $stmt = $connexion->prepare($requete);
             $stmt->bindParam(':content', $donnees['content']);
-            $stmt->bindParam(':receiver', $donnees['id']);
+            $stmt->bindParam(':recever', $donnees['id']);
             $stmt->execute();
 
             $id_mes = $connexion->lastInsertId();
