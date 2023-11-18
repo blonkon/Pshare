@@ -7,108 +7,156 @@ fetch('data.php')
   return response.json();
 })
 .then(data => {
+
   console.log(data);
   const parentElement = document.getElementById("contactes");
-data.forEach(element => {
-  console.log(element.num_users);
-    const Div = document.createElement('div');
-    const Paragraph = document.createElement('p');
-    const span = document.createElement('span');
-    span.style.display ="none";
-    span.style.backgroundColor  = "#d63c4e";
-    span.style.position = "absolute";
-    span.style.height = "10px";
-    span.style.width = "10px";
-    span.style.left = "64px"; 
-    span.style.borderRadius = "50%";
-    Div.style.position = "relative";
-    
-    const images = document.createElement('img');
-    images.setAttribute('src','../Pshare/profil/'+element.img);
-    Paragraph.textContent = `${element.nom_complet}`;
-    Paragraph.dataset.id = element.num_users;
-    span.id=element.num_users*-1;
-    Paragraph.dataset.image = element.img;
-    Div.appendChild(span);
-    Div.appendChild(images);
-    Div.appendChild(Paragraph);
-    parentElement.appendChild(Div);
-    //notification dot 
-    const previousIntervalID = localStorage.getItem('myIntervalID11');
-    if (previousIntervalID) {
-      clearInterval(parseInt(previousIntervalID, 10));
-    }
-    const newIntervalID = setInterval(function() {
-      fetch("messageforuserid.php?action=notification")
-      .then(response => response.json())
-      .then(data => {
-      if (data["nothing"]!=true) {
-        data.forEach(element=>{
-          val = element.sender*-1;
+  if (data["nothing"]!=true) {
+    data.forEach(element => {
+      console.log(element.num_users);
+        const Div = document.createElement('div');
+        const Paragraph = document.createElement('p');
+        const span = document.createElement('span');
+        span.style.display ="none";
+        span.style.backgroundColor  = "#d63c4e";
+        span.style.position = "absolute";
+        span.style.height = "10px";
+        span.style.width = "10px";
+        span.style.left = "64px"; 
+        span.style.borderRadius = "50%";
+        Div.style.position = "relative";
+        
+        const images = document.createElement('img');
+        images.setAttribute('src','../Pshare/profil/'+element.img);
+        Paragraph.textContent = `${element.nom_complet}`;
+        Paragraph.dataset.id = element.num_users;
+        span.id=element.num_users*-1;
+        Paragraph.dataset.image = element.img;
+        Div.appendChild(span);
+        Div.appendChild(images);
+        Div.appendChild(Paragraph);
+        parentElement.appendChild(Div);
+        //notification dot 
+        const previousIntervalID = localStorage.getItem('myIntervalID11');
+        if (previousIntervalID) {
+          clearInterval(parseInt(previousIntervalID, 10));
+        }
+        const newIntervalID = setInterval(function() {
+          console.log("num user " + element.num_users);
+          fetch("messageforuserid.php?action=notification")
+          .then(response => response.json())
+          .then(data => {
+          if (data["nothing"]!=true) {
+            data.forEach(element=>{
+              val = element.sender*-1;
+              var element1 = document.getElementById(val);
+              if (element1) {
+                element1.style.display = "inline";
+                  }
+            })
+          }
+            
+          });
+          
+        }, 2000);
+        localStorage.setItem('myIntervalID11', newIntervalID.toString());
+          
+        Div.addEventListener('click', function() {
+        
+          const Profile = document.getElementById("chatp");
+          const image = Profile.querySelector("img"); 
+          image.setAttribute('src', images.getAttribute('src')); 
+        
+          const content = Profile.querySelector('p'); 
+          content.textContent = Paragraph.textContent;
+          val = Paragraph.dataset.id*-1;
           var element1 = document.getElementById(val);
           if (element1) {
-            element1.style.display = "inline";
+            element1.style.display = "none";
               }
-        })
-      }
-        
-      });
+          getmessageforid(Paragraph.dataset.id,Paragraph.dataset.image);
+          
       
-    }, 2000);
-    localStorage.setItem('myIntervalID11', newIntervalID.toString());
-      
-    Div.addEventListener('click', function() {
-    
-      const Profile = document.getElementById("chatp");
-      const image = Profile.querySelector("img"); 
-      image.setAttribute('src', images.getAttribute('src')); 
-    
-      const content = Profile.querySelector('p'); 
-      content.textContent = Paragraph.textContent;
-      val = Paragraph.dataset.id*-1;
-      var element1 = document.getElementById(val);
-      if (element1) {
-        element1.style.display = "none";
+          const previousIntervalID = localStorage.getItem('myIntervalID');
+          if (previousIntervalID) {
+            clearInterval(parseInt(previousIntervalID, 10));
           }
-      getmessageforid(Paragraph.dataset.id,Paragraph.dataset.image);
+          const newIntervalID = setInterval(function() {
+            console.log("num user " + element.num_users);
+            addnewmessage(Paragraph.dataset.id,Paragraph.dataset.image);
+            deletedmessage(element.num_users);
+          }, 2000);
+          localStorage.setItem('myIntervalID', newIntervalID.toString());
+              
+            });
       
+    });
+  }
+//message pou contacter first time
+const urlParams = new URLSearchParams(window.location.search);
+const param = urlParams.get("el");
+if (param) {
   
-      const previousIntervalID = localStorage.getItem('myIntervalID');
-      if (previousIntervalID) {
-        clearInterval(parseInt(previousIntervalID, 10));
-      }
-      const newIntervalID = setInterval(function() {
-        console.log("num user " + element.num_users);
-        addnewmessage(Paragraph.dataset.id,Paragraph.dataset.image);
-        deletedmessage(element.num_users);
-      }, 2000);
-      localStorage.setItem('myIntervalID', newIntervalID.toString());
-          
-        });
-        
+fetch("messageforuserid.php?action=first&id="+param)
+.then(response => response.json())
+.then(data => {
+console.log(data[0]);
+//photo dans le coin c'est a dire le profile               
+const Profile = document.getElementById("chatp");
+const image = Profile.querySelector("img"); 
+image.setAttribute('src', '../Pshare/profil/'+data[0].img); 
 
+const content = Profile.querySelector('p'); 
+content.textContent = data[0].nom_complet;
+
+element = document.getElementById(param*-1);
+if (element) {
+console.log("element present");
+getmessageforid(param,data[0].img);
+
+
+const previousIntervalID = localStorage.getItem('myIntervalID');
+if (previousIntervalID) {
+  clearInterval(parseInt(previousIntervalID, 10));
+}
+const newIntervalID = setInterval(function() {
+  console.log("num user " + data[0].num_users);
+  addnewmessage(param,data[0].img);
+  deletedmessage(data[0].num_users);
+}, 2000);
+localStorage.setItem('myIntervalID', newIntervalID.toString());
+
+}else{
+console.log("element non present");
+const parentElement = document.getElementById("content");
+const Div = document.createElement('div');
+const input1 = document.createElement('input');
+const input2 = document.createElement('input');
+const input3 = document.createElement('input');
+Div.setAttribute('class','fixed-element');
+input1.setAttribute('type','text');
+input1.setAttribute('name','content');
+input1.setAttribute('placeholder',"Votre message");
+input2.setAttribute('type','submit');
+input2.setAttribute('value','Envoyer');
+input3.setAttribute('name','id');
+input3.setAttribute('value',`${param}`);
+input3.style.display='none';
+Div.appendChild(input1);
+Div.appendChild(input3);
+Div.appendChild(input2);
+input2.addEventListener('click', function() {
+  sending(param,input1.value,data[0].img)
+  input1.value="";
+  allpagecontent();
 });
-  //message pou contacter first time
-  const urlParams = new URLSearchParams(window.location.search);
-        const param = urlParams.get("iduser");
-        if (param) {
+parentElement.appendChild(Div);
+}
 
-          var ele;
-      fetch("messageforuserid.php?action=first&id="+param)
-      .then(response => response.json())
-      .then(data => {
-                    console.log(data[0]);
-      const Profile = document.getElementById("chatp");
-      const image = Profile.querySelector("img"); 
-      image.setAttribute('src', '../Pshare/profil/'+data[0].img); 
-    
-      const content = Profile.querySelector('p'); 
-      content.textContent = data[0].nom_complet;
-      
-       })
+
+})
+
   
-          
-        }
+}
 })
 .catch(error => {
   console.error('Une erreur s\'est produite :', error);
@@ -321,7 +369,11 @@ function addnewmessage(id,img) {
                     monid = dataa;
                     if (data["nothing"]!=true) {
                       data.forEach(element=>{
-
+                     
+                      var element1 = document.getElementById(id*-1);
+                      if (element1) {
+                      element1.style.display = "none";
+                      }
                         //je supprimer l'element du newmessage
                         // console.log("ici l'id du truc qui doit etre"+element.num_mes);
                         fetch("messageforuserid.php?action=delete&del=" + element.num_mes)
@@ -391,5 +443,105 @@ function deletedmessage(id) {
               })
             }
 
-
+function allpagecontent(){
+  fetch('data.php')
+.then(response => {
+  if (!response.ok) {
+    throw new Error('La requête a échoué.');
+  }
+  return response.json();
+})
+.then(data => {
+  console.log(data);
+  const parentElement = document.getElementById("contactes");
+  while (parentElement.firstChild) {
+    parentElement.removeChild(parentElement.firstChild);
+}
+if (data["nothing"]!=true) {
+  data.forEach(element => {
+    console.log(element.num_users);
+      const Div = document.createElement('div');
+      const Paragraph = document.createElement('p');
+      const span = document.createElement('span');
+      span.style.display ="none";
+      span.style.backgroundColor  = "#d63c4e";
+      span.style.position = "absolute";
+      span.style.height = "10px";
+      span.style.width = "10px";
+      span.style.left = "64px"; 
+      span.style.borderRadius = "50%";
+      Div.style.position = "relative";
+      
+      const images = document.createElement('img');
+      images.setAttribute('src','../Pshare/profil/'+element.img);
+      Paragraph.textContent = `${element.nom_complet}`;
+      Paragraph.dataset.id = element.num_users;
+      span.id=element.num_users*-1;
+      Paragraph.dataset.image = element.img;
+      Div.appendChild(span);
+      Div.appendChild(images);
+      Div.appendChild(Paragraph);
+      parentElement.appendChild(Div);
+      //notification dot 
+      const previousIntervalID = localStorage.getItem('myIntervalID11');
+      if (previousIntervalID) {
+        clearInterval(parseInt(previousIntervalID, 10));
+      }
+      const newIntervalID = setInterval(function() {
+        console.log("num user " + element.num_users);
+        fetch("messageforuserid.php?action=notification")
+        .then(response => response.json())
+        .then(data => {
+        if (data["nothing"]!=true) {
+          data.forEach(element=>{
+            val = element.sender*-1;
+            var element1 = document.getElementById(val);
+            if (element1) {
+              element1.style.display = "inline";
+                }
+          })
+        }
+          
+        });
+        
+      }, 2000);
+      localStorage.setItem('myIntervalID11', newIntervalID.toString());
+        
+      Div.addEventListener('click', function() {
+      
+        const Profile = document.getElementById("chatp");
+        const image = Profile.querySelector("img"); 
+        image.setAttribute('src', images.getAttribute('src')); 
+      
+        const content = Profile.querySelector('p'); 
+        content.textContent = Paragraph.textContent;
+        val = Paragraph.dataset.id*-1;
+        var element1 = document.getElementById(val);
+        if (element1) {
+          element1.style.display = "none";
+            }
+        getmessageforid(Paragraph.dataset.id,Paragraph.dataset.image);
+        
+    
+        const previousIntervalID = localStorage.getItem('myIntervalID');
+        if (previousIntervalID) {
+          clearInterval(parseInt(previousIntervalID, 10));
+        }
+        const newIntervalID = setInterval(function() {
+          console.log("num user " + element.num_users);
+          addnewmessage(Paragraph.dataset.id,Paragraph.dataset.image);
+          deletedmessage(element.num_users);
+        }, 2000);
+        localStorage.setItem('myIntervalID', newIntervalID.toString());
+            
+          });
+          
+  
+  });
+}
+})
+.catch(error => {
+  console.error('Une erreur s\'est produite :', error);
+});
+}
 

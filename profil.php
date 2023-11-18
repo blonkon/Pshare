@@ -39,24 +39,33 @@ if (!isset( $_SESSION["num_users"])) {
     <div class="partie">
         <div class="left">
             <ul >
-                <li>
-                    <img src="./image/chat.svg">
-                    <a href="#"> Messages</a>
-                   
+                <li style="background-color: #fff ;">
+                    <img src="./image/chat.png">
+                    <a href="#" style="color: #06708e;"> Messages</a>
                 </li>
                 <li>
                     <img src="./image/project.svg">
+<<<<<<< HEAD
                     <a href="ajoutprojet.php">Projets</a>
+=======
+                    <a href="mesprojet.php">Projets</a>
+>>>>>>> 431b0c83dcb45fbedd2be016728452d94227e6d6
                 </li>
                 <li>
                     <img src="./image/profile.svg">
                     <a href="#">Profil</a>
                     
                 </li>
+<<<<<<< HEAD
               
                 <li>
                     <!-- <img src="./image/profile.svg"> -->
                     <a href="deconnexion.php">Deconnexion</a>
+=======
+                <li>
+                    <img src="./image/deconnecter.png">
+                    <a href="logout.php">Deconnexion</a>
+>>>>>>> 431b0c83dcb45fbedd2be016728452d94227e6d6
                     
                 </li>
             </ul>

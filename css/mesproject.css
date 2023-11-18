@@ -110,128 +110,6 @@ nav ul li a:hover{
     width: 85%;
     flex-direction: column;
 }
-.contact{
-    display: flex;
-    padding-left: 2%;
-    overflow-x: auto;
-    cursor: pointer;
-}
-.contact::-webkit-scrollbar{
-    width: 3px;
-}
-.contact::-webkit-scrollbar-thumb{
-    background-color: linear-gradient(transparent,#06708e);
-    border-radius: 16px;
-
-}
-.contact div {
-    text-align: center;
-    margin:2%;
-}
-.contact div img , .chatp img{
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 1px solid #06708e;
-}
-.contact div p , .chatp p{
-    width: auto;
-    font-family: "Poppins";
-    font-size: 12px;
-    color: #a0a0a0;
-}
-.chat{
-    height: 60vh;
-    display: flex;
-    flex-direction: row;
-}
-h1{
-text-align: center;
-}
-.chatp{
-    width: 15%;
-    text-align: center;
-    background-color: #F2F3C1;
-    padding-top: 2%;
-    border-top-right-radius: 20px;
-}
-.content{
-    width: 85%;
-    padding: 2%;
-    padding-bottom: 0%;
-    overflow-y: auto;
-}
-.content::-webkit-scrollbar{
-    width: 3px;
-}
-.content::-webkit-scrollbar-thumb{
-    background-color: linear-gradient(transparent,#06708e);
-    border-radius: 16px;
-
-}
-
-.messagebox {
-    display: flex;
-    width: 100%;
-    margin-bottom: 2%;
-    flex-direction: column-reverse;
-
-}
-.messagebox img{
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-}
-.messagebox div{
-    margin-left:60px;
-}
-
-.messagebox div p{
-   
-    width: 50%;
-    padding: 15px;
-    background-color: #F2F3C1;
-    border-radius: 20px;
-    border-bottom-left-radius: 0px;
-    font-size: 12px;
-    font-family: "Poppins";
-}
-.messagebox div span{
-    margin-right: 5%;
-    /* margin-left: 6%; */
-    font-size: 10px;
-    color: #a0a0a0;
-    font-family: "Poppins";
-
-}
-
-.fixed-element {
-    position: sticky;
-    bottom: 0;
-    background-color: white; 
-    padding: 20px;
-    z-index: 1; 
-  }
-  .fixed-element input[type=text]{
-    border: 1px solid #06708e;
-    outline: none;
-    background-color: #F2F3C1;
-    border-radius: 20px;
-    padding: 2%;
-    margin: 2%;
-    width: 50%;
-  }
-  .fixed-element input[type=submit]{
-    outline: none;
-    border: none;
-    border-radius: 20px;
-    background-color: #06708e;
-    padding: 2%;
-    /* width: 10%; */
-    color: #ffff;
-  }
-/* Fin Sidebar */
-
 
 
 /* FOOTER */
@@ -296,4 +174,67 @@ footer{
     width: 20px;
     height: 20px;
 }
-/*Fin Footer */
+/*Fin du style necessaire*/
+
+.content{
+    margin-top: 8%;
+    margin-bottom: 8%;
+    display: flex;
+    height: 70vh;
+    width: 100%;
+}
+.titre, .liste h2{
+    color: #06708e;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+}
+.titre{
+    padding: 5px;
+}
+.liste{
+    border-right: 1px solid #06708e;
+    width: 40%;
+    text-align: center;
+}
+.az{
+    overflow-wrap: break-word;
+    padding: 40px;
+}
+.button{
+    padding: 20px;
+}
+.details{
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    text-align: center;
+    border-left: 1px solid #06708e;
+
+}
+.liste1{
+    width: 80%; 
+    margin-left: 5%; 
+    margin-top: 5%; 
+    padding:10px;
+    color : #06708e;
+    border:1px solid #06708e; 
+    border-radius: 20px;
+    cursor: pointer;
+}
+.liste1:hover{
+    color: #ffffff;
+    background-color: #06708e;
+    border:1px solid #fff; 
+}
+#ul::-webkit-scrollbar{
+    width: 3px;
+}
+#ul::-webkit-scrollbar-thumb{
+    background-color: linear-gradient(transparent,#06708e);
+    border-radius: 16px;
+
+}

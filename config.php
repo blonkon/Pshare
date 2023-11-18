@@ -85,8 +85,12 @@ class Operation
          {
             $con=$this->con->prepare("INSERT INTO projet VALUES('',?,?,?,?,?)");
             $con->execute(array($id_user,$nom_projet,$statut,$description,$cahier));
+            $lastInsertedId = $this->con->lastInsertId();
+
             $con->closeCursor();
-         }
+    
+            // Retourner l'id du dernier enregistrement inséré
+            return $lastInsertedId;         }
        }
 
 
